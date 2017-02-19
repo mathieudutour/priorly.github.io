@@ -62,7 +62,7 @@ module.exports = {
       defaultAttribute: 'async'
     }),
     new ManifestPlugin({
-      fileName: 'asset-manifest.json'
+      fileName: 'manifest.json'
     })
   ].concat(PROD ? [
     new OfflinePlugin({
