@@ -9,7 +9,8 @@
     "start": "webpack-dev-server --progress",
     "build": "NODE_ENV=production webpack -p --progress",
     "flow": "flow",
-    "deploy-server": "cd oauth-server && serverless deploy"
+    "deploy-server": "cd oauth-server && serverless deploy",
+    "deploy": "(rm -rf build || true) && npm run build && cd build && git init && git checkout -b gh-pages && touch .nojekyll && git add . && git commit -m 'deploy :rocket:' && git push https://github.com/priorly/priorly.github.io gh-pages --force"
   },
   "author": "Mathieu Dutour <mathieu@dutour.me> (http://mathieu.dutour.me/)",
   "license": "MIT",

@@ -10,8 +10,8 @@ import TopBar from './TopBar'
 
 function getRepo (state) {
   const { params = {
-    owner: 'mathieudutour',
-    repo: 'test'
+    owner: 'priorly',
+    repo: 'priorly.github.io'
   } } = state
   return params.owner + '/' + params.repo
 }
