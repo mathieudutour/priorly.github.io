@@ -5,6 +5,7 @@ const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin')
 const ManifestPlugin = require('webpack-manifest-plugin')
 const OfflinePlugin = require('offline-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
+const CopyWebpackPlugin = require('copy-webpack-plugin')
 const AppShellRenderer = require('./app-shell-renderer.js')
 
 const PROD = process.env.NODE_ENV === 'production'
@@ -34,6 +35,7 @@ module.exports = {
     ]
   },
   plugins: [
+    new CopyWebpackPlugin([{ from: './src/CNAME' }]),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
       minChunks: Infinity
