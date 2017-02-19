@@ -19,9 +19,9 @@ const Linkable = (Inner) => {
       )
     }
     getAction = () => {
-      const {to, href} = this.props
+      const {to, href, params} = this.props
       if (typeof to === 'string') {
-        return NavigationActions.navigate({ routeName: to })
+        return NavigationActions.navigate({ routeName: to, params })
       } else if (typeof to === 'object' && typeof to.type === 'string') {
         return to
       } else if (href) {

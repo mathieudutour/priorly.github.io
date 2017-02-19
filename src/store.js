@@ -5,9 +5,7 @@ import thunk from 'redux-thunk'
 
 import * as rootReducers from './reducers'
 
-const defaultState = (typeof window !== 'undefined' && window.__INITIAL_STATE__) || {
-  todos: []
-}
+const defaultState = (typeof window !== 'undefined' && window.__INITIAL_STATE__)
 
 const composeEnhancers = typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose
 

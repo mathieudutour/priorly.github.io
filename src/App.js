@@ -6,17 +6,23 @@ import {
 } from 'react-navigation/lib/react-navigation.web'
 
 import About from './components/About'
-import Home from './components/Home'
-import Topics from './components/Topics'
+import Repo from './components/Repo'
 import NotFound from './components/NotFound'
 import AppFrame from './components/AppFrame'
 
-const App = createNavigator(TabRouter({
+const router = TabRouter({
   Home: {
-    screen: Home,
+    screen: Repo,
     path: '',
     navigationOptions: {
       title: 'Home'
+    }
+  },
+  Repo: {
+    screen: Repo,
+    path: ':owner/:repo',
+    navigationOptions: {
+      title: 'Repo'
     }
   },
   About: {
@@ -26,19 +32,14 @@ const App = createNavigator(TabRouter({
       title: 'About'
     }
   },
-  Topics: {
-    screen: Topics,
-    path: 'topics',
-    navigationOptions: {
-      title: 'Topics'
-    }
-  },
   NotFound: {
     screen: NotFound,
     navigationOptions: {
       title: 'Page Not Found'
     }
   }
-}))(AppFrame)
+})
+
+const App = createNavigator(router)(AppFrame)
 
 export default App

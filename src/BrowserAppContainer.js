@@ -6,9 +6,19 @@ import { NavigationActions, addNavigationHelpers, type NavigationState } from 'r
 import App from './App'
 
 function getAction (router, path, params) {
-  const action = router.getActionForPathAndParams(path, params)
+  let action = router.getActionForPathAndParams(path, params)
   if (action) {
     return action
+  }
+  const sections = path.split('/')
+  if (sections.length === 2) {
+    return NavigationActions.navigate({
+      params: {
+        owner: sections[0],
+        repo: sections[1]
+      },
+      routeName: 'Repo'
+    })
   }
   return NavigationActions.navigate({
     params: { path },
@@ -18,10 +28,19 @@ function getAction (router, path, params) {
 
 export default class NavigationContainer extends React.Component {
   state: NavigationState
-  constructor () {
-    super()
-    const initialAction = getAction(App.router, window.location.pathname.substr(1))
+  constructor (props) {
+    super(props)
+    const initialAction = getAction(App.router, window.location.hash.slice(2))
     this.state = App.router.getStateForAction(initialAction)
+    if (initialAction.params) {
+      this.state = App.router.getStateForAction(
+        NavigationActions.setParams({
+          key: this.state.routes[this.state.index].key,
+          params: initialAction.params
+        }),
+        this.state
+      )
+    }
   }
   componentDidMount () {
     document.title = App.router.getScreenConfig({state: this.state.routes[this.state.index], dispatch: this.dispatch}, 'title')
@@ -33,7 +52,7 @@ export default class NavigationContainer extends React.Component {
   }
   componentWillUpdate (props: any, state: any) {
     const {path} = App.router.getPathAndParamsForState(state)
-    const uri = `/${path}`
+    const uri = `#/${path}`
     if (window.location.pathname !== uri) {
       window.history.pushState({}, state.title, uri)
     }

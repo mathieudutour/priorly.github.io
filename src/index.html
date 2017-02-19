@@ -15,11 +15,20 @@
 		<% if ( htmlWebpackPlugin.options.icon) { %>
 			<link rel="icon" sizes="300x300" href="<%= htmlWebpackPlugin.options.icon %>">
 		<% } %>
-    <style data-aphrodite><?- rendered.css.content ?></style>
+		<style>
+			body {
+				margin: 0;
+				background-color: #f6f6f6;
+		    font-family: -apple-system-body,SFUI,Helvetica Neue,Helvetica,Arial,sans-serif;
+		    color: #333;
+		    -webkit-font-smoothing: antialiased;
+		    -moz-osx-font-smoothing: grayscale
+			}
+		</style>
+		<style data-aphrodite><%= htmlWebpackPlugin.options.rendered.css.content %></style>
 	</head>
 	<body>
-    <div id="app"><?- rendered.html ?></div>
-    <script>window.__INITIAL_STATE__ = <?- context ?></script>
+    <div id="app"><%= htmlWebpackPlugin.options.rendered.html %></div>
 		<% for (var chunk in  htmlWebpackPlugin.files.chunks) { %>
 			<script rel="preload" src="<%= htmlWebpackPlugin.files.chunks[chunk].entry %>" as="script"></script>
 		<% } %>

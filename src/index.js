@@ -11,6 +11,9 @@ if (typeof document !== 'undefined') {
   // Load offline plugin only on production
   process.env.NODE_ENV === 'production' && require('./offline')
 
+  const { fetchToken } = require('./reducers/user')
+  store.dispatch(fetchToken())
+
   render(
     <Provider store={store}>
       <BrowserAppContainer />

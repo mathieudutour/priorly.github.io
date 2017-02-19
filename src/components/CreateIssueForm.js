@@ -1,0 +1,62 @@
+import React from 'react'
+import { connect } from 'react-redux'
+import Textarea from 'react-textarea-autosize'
+import { StyleSheet, css } from 'aphrodite'
+import Button from './Button'
+import { postIssue } from '../reducers/issues'
+
+const CreateIssue = ({styles, dispatch, repoName}) => (
+  <form className={css(_styles.form, styles)} onSubmit={(e) => dispatch(postIssue(repoName, e))}>
+    <label className={css(_styles.label)}>Title</label>
+    <input className={css(_styles.input)} placeholder='Short, descriptive title' />
+    <label className={css(_styles.label)}>Details</label>
+    <Textarea className={css(_styles.input)} placeholder='Any additional details...' />
+    <Button styles={_styles.submit} type='submit'>Create post</Button>
+  </form>
+)
+
+const _styles = StyleSheet.create({
+  form: {
+    display: 'flex',
+    flexDirection: 'column',
+    width: '100%'
+  },
+
+  label: {
+    position: 'relative',
+    textTransform: 'uppercase',
+    display: 'block',
+    color: '#999',
+    fontSize: '11px',
+    fontWeight: 700,
+    letterSpacing: '.05em',
+    lineHeight: '15px',
+    top: '24px',
+    left: '12px'
+  },
+
+  input: {
+    display: 'block',
+    borderRadius: '3px',
+    border: '1px solid #ddd',
+    background: '#fff',
+    padding: '24px 12px 8px',
+    outline: 'none',
+    color: '#333',
+    fontSize: '15px',
+    lineHeight: '22px',
+    minHeight: '22px',
+
+    ':focus': {
+      border: '1px solid #aaa'
+    }
+  },
+
+  submit: {
+    backgroundColor: '#525df9',
+    alignSelf: 'flex-end',
+    marginTop: '15px'
+  }
+})
+
+export default connect()(CreateIssue)

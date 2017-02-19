@@ -5,11 +5,14 @@ const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin')
 const ManifestPlugin = require('webpack-manifest-plugin')
 const OfflinePlugin = require('offline-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
+const AppShellRenderer = require('./app-shell-renderer.js')
+
+const PROD = process.env.NODE_ENV === 'production'
 
 module.exports = {
   entry: {
     app: './src/index.js',
-    vendor: ['react', 'react-navigation', 'react-dom', 'redux', 'axios', 'react-redux', 'redux-thunk', 'uuid']
+    vendor: ['react', 'react-navigation', 'react-dom', 'redux', 'axios', 'react-redux', 'redux-thunk', 'uuid', 'query-string']
   },
   output: {
     path: path.resolve(__dirname, './build'),
@@ -25,7 +28,8 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        loader: 'babel-loader'
+        loader: 'babel-loader',
+        exclude: /node_modules/
       }
     ]
   },
@@ -42,14 +46,15 @@ module.exports = {
       template: './src/index.html',
       removeRedundantAttributes: true,
       inject: false,
-      manifest: process.env.NODE_ENV === 'production'
+      manifest: PROD
         ? 'manifest.json'
         : '/assets/manifest.json',
       GOOGLE_ANALYTICS_UA: process.env.GOOGLE_ANALYTICS_UA,
       minify: {
-        collapseWhitespace: true,
-        removeComments: true
-      }
+        collapseWhitespace: PROD,
+        removeComments: PROD
+      },
+      rendered: AppShellRenderer('./src', './src/reducers')
     }),
     new ScriptExtHtmlWebpackPlugin({
       defaultAttribute: 'async'
@@ -57,7 +62,7 @@ module.exports = {
     new ManifestPlugin({
       fileName: 'asset-manifest.json'
     })
-  ].concat(process.env.NODE_ENV === 'production' ? [
+  ].concat(PROD ? [
     new OfflinePlugin({
       relativePaths: false,
       publicPath: '/',
