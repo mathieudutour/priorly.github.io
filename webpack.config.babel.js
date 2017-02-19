@@ -42,19 +42,17 @@ module.exports = {
     }),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV)
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+      'process.env.GOOGLE_ANALYTICS_UA': JSON.stringify(process.env.GOOGLE_ANALYTICS_UA)
     }),
     new HtmlWebpackPlugin({
       template: './src/index.html',
       removeRedundantAttributes: true,
       inject: false,
-      manifest: PROD
-        ? 'manifest.json'
-        : '/assets/manifest.json',
+      manifest: 'manifest.json',
       GOOGLE_ANALYTICS_UA: process.env.GOOGLE_ANALYTICS_UA,
       minify: {
-        collapseWhitespace: PROD,
-        removeComments: PROD
+        collapseWhitespace: PROD
       },
       rendered: AppShellRenderer('./src', './src/reducers')
     }),

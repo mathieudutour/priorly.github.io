@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "pre-commit-lint": "lint-staged",
     "start": "webpack-dev-server --progress",
-    "build": "NODE_ENV=production webpack -p --progress",
+    "build": "GOOGLE_ANALYTICS_UA=UA-92238652-1 NODE_ENV=production webpack -p --progress",
     "flow": "flow",
     "deploy-server": "cd oauth-server && serverless deploy",
     "deploy": "(rm -rf build || true) && npm run build && cd build && git init && git checkout -b master && touch .nojekyll && git add . && git commit -m 'deploy :rocket:' && git push https://github.com/priorly/priorly.github.io master --force"
