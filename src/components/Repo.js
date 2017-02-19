@@ -9,7 +9,7 @@ import Card from './Card'
 import Issue from './Issue'
 import WaitingIssue from './WaitingIssue'
 import IssueEmptyState from './emptyStates/issues'
-import CreateIssueForm from './CreateIssueForm'
+import RepoCard from './RepoCard'
 import { fetchIssues, selectors } from '../reducers/issues'
 import { fetchRepo } from '../reducers/repo'
 
@@ -29,23 +29,7 @@ class Repo extends React.Component {
   render () {
     return (
       <Container styles={styles.container}>
-        <Card styles={styles.sidebar}>
-          <div className={css(styles.faces)}>
-            {this.props.repoReady && (this.props.repo.collaborators || [this.props.repo.owner]).map(c =>
-              <div className={css(styles.face)} key={c.id}>
-                <img src={c.avatar_url + '&s=36'} style={{width: '100%'}} />
-              </div>
-            )}
-            {!this.props.repoReady && Array.from(new Array(3)).map((c, i) =>
-              <div className={css(styles.face)} key={i} />
-            )}
-          </div>
-          <div>
-            <h1 className={css(styles.repoName)}>{this.props.repoReady && this.props.repo.full_name}</h1>
-            <p className={css(styles.repoDescription)}>{this.props.repoReady && this.props.repo.description}</p>
-          </div>
-          <CreateIssueForm repoName={this.props.repoName} />
-        </Card>
+        <RepoCard ready={this.props.repoReady} repo={this.props.repo} repoName={this.props.repoName} />
         <Card styles={styles.issuesList}>
           <div className={css(styles.header)}>
             <div className={css(styles.menu)}>Showing Top posts</div>

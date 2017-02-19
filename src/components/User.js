@@ -1,7 +1,8 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { StyleSheet, css } from 'aphrodite'
+import { StyleSheet } from 'aphrodite'
 import Button from './Button'
+import Avatar from './Avatar'
 
 class User extends React.Component {
   render () {
@@ -18,23 +19,11 @@ class User extends React.Component {
         </div>
       )
     }
-    return (
-      <div className={css(styles.face)}>
-        <img src={this.props.user.avatar_url + '&s=36'} style={{width: '100%'}} />
-      </div>
-    )
+    return <Avatar user={this.props.user} />
   }
 }
 
 const styles = StyleSheet.create({
-  face: {
-    width: '36px',
-    height: '36px',
-    background: '#ddd',
-    borderRadius: '50%',
-    overflow: 'hidden'
-  },
-
   login: {
     backgroundColor: '#bbb'
   }
