@@ -21,7 +21,10 @@ class Repo extends React.Component {
     }
   }
   componentWillReceiveProps (nextProps) {
-    if (nextProps.userReady && !this.props.userReady) {
+    if (
+      (nextProps.userReady && !this.props.userReady) ||
+      (nextProps.userReady && this.props.repoName !== nextProps.repoName)
+    ) {
       nextProps.dispatch(fetchIssues(nextProps.repoName, 'all'))
       nextProps.dispatch(fetchRepo(nextProps.repoName))
     }

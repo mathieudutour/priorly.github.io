@@ -13,7 +13,7 @@ class User extends React.Component {
       return (
         <div>
           <Button styles={styles.login}
-            onClick={() => { window.location = 'https://github.com/login/oauth/authorize?client_id=bb0bd794e1974d1b64ab' }}>
+            onClick={() => { window.location = 'https://github.com/login/oauth/authorize?client_id=bb0bd794e1974d1b64ab&scope=public_repo' }}>
             Login
           </Button>
         </div>

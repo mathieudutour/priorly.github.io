@@ -80,13 +80,10 @@ export default (state = {status: 'loading', issues: {}}, action) => {
       return {
         ...state,
         status: 'ready',
-        issues: {
-          ...state.issues,
-          ...action.issues.reduce((prev, i) => {
-            prev[i.id] = i
-            return prev
-          }, {})
-        }
+        issues: action.issues.reduce((prev, i) => {
+          prev[i.id] = i
+          return prev
+        }, {})
       }
     case UPVOTE_ISSUE:
       return {
