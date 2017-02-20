@@ -118,12 +118,14 @@ export const selectors = {
   new (state) {
     return Object.keys(state.issues)
       .map(k => state.issues[k])
+      .filter(i => !i.closed_at)
       .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
   },
 
   top (state) {
     return Object.keys(state.issues)
       .map(k => state.issues[k])
+      .filter(i => !i.closed_at)
       .sort((a, b) => b.reactions['+1'] - a.reactions['+1'])
   }
 }

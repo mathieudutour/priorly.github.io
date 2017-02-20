@@ -12,12 +12,32 @@ const Votes = ({reactions, onVote}) => (
   </div>
 )
 
+const KANBAN_LABEL = /^\d+ - /
+
+function findLabel (issue) {
+  return (issue.labels || []).find(l => KANBAN_LABEL.test(l.name))
+}
+
+function getLabel (issue) {
+  return findLabel(issue).name.replace(/^\d+ - /, '')
+}
+
 const Issue = ({issue, styles, dispatch, repoName}) => (
   <div className={css(_styles.issue, styles)}>
     <Votes
       reactions={issue.reactions}
       onVote={() => dispatch(upvoteIssue(repoName, issue))} />
-    <div className={css(_styles.body)}>{issue.title}</div>
+    <div className={css(_styles.body)}>
+      <div>{issue.title}</div>
+      {issue.closed_at &&
+        <div className={css(_styles.label)} style={{color: '#3ac600'}}>
+          Fixed
+        </div>}
+      {!issue.closed_at && findLabel(issue) &&
+        <div className={css(_styles.label)} style={{color: '#' + findLabel(issue).color}}>
+          {getLabel(issue)}
+        </div>}
+    </div>
     <CommentIcon />
     <div>
       {issue.comments}
@@ -58,7 +78,17 @@ const _styles = StyleSheet.create({
     letterSpacing: '.01em',
     wordSpacing: '.02em',
     fontSize: '17px',
-    lineHeight: '22px'
+    lineHeight: '22px',
+    display: 'flex',
+    flexDirection: 'column'
+  },
+
+  label: {
+    fontSize: '11px',
+    fontWeight: 700,
+    letterSpacing: '.1em',
+    textTransform: 'uppercase',
+    margin: '4px 0 0'
   }
 })
 
