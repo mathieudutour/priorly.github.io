@@ -8,7 +8,7 @@ import { upvoteIssue } from '../reducers/issues'
 const Votes = ({reactions, onVote}) => (
   <div className={css(_styles.votes)} onClick={onVote}>
     <Upvote />
-    <span className={css(_styles.upvotesNumber)}>{reactions['+1']}</span>
+    <span className={css(_styles.upvotesNumber)}>{(reactions || {})['+1']}</span>
   </div>
 )
 

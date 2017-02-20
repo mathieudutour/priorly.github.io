@@ -2,14 +2,14 @@
 
 import React from 'react'
 import { connect } from 'react-redux'
-import { StyleSheet, css } from 'aphrodite'
+import { StyleSheet } from 'aphrodite'
 import Container from './Container'
-import SearchIcon from './icons/Search'
 import Card from './Card'
 import Issue from './Issue'
 import WaitingIssue from './WaitingIssue'
 import IssueEmptyState from './emptyStates/issues'
 import RepoCard from './RepoCard'
+import IssueListHeader from './IssueListHeader'
 import { fetchIssues, selectors } from '../reducers/issues'
 import { fetchRepo } from '../reducers/repo'
 
@@ -34,10 +34,7 @@ class Repo extends React.Component {
       <Container styles={styles.container}>
         <RepoCard ready={this.props.repoReady} repo={this.props.repo} repoName={this.props.repoName} />
         <Card styles={styles.issuesList}>
-          <div className={css(styles.header)}>
-            <div className={css(styles.menu)}>Showing Top posts</div>
-            <div className={css(styles.rightContainer)}><SearchIcon /></div>
-          </div>
+          <IssueListHeader repoName={this.props.repoName} />
           {this.props.issues.length > 0 && !this.props.issueReady && 'Loading...'}
           {this.props.issues.length === 0 && !this.props.issueReady && (
             Array.from(Array(5)).map((_, i) => <WaitingIssue key={i} index={i} />)
@@ -63,67 +60,6 @@ const styles = StyleSheet.create({
   issuesList: {
     width: '100%',
     alignSelf: 'flex-start'
-  },
-
-  header: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    borderBottom: '1px solid #efefef'
-  },
-
-  menu: {
-    padding: '15px 25px'
-  },
-
-  rightContainer: {
-    color: '#bbb',
-    fontSize: '15px',
-    padding: '20px 30px',
-    cursor: 'pointer'
-  },
-
-  sidebar: {
-    width: '300px',
-    display: 'flex',
-    flexDirection: 'column',
-    alignSelf: 'flex-start',
-    padding: '15px',
-    margin: '0 15px 0 0',
-
-    '@media (max-width: 780px)': {
-      alignSelf: 'stretch',
-      flex: 1,
-      margin: '0 0 15px',
-      width: 'auto'
-    }
-  },
-
-  faces: {
-    display: 'flex',
-    flexDirection: 'row',
-    justifyContent: 'center',
-    padding: '0 15px'
-  },
-
-  face: {
-    width: '36px',
-    height: '36px',
-    margin: '0 4px 4px',
-    background: '#ddd',
-    borderRadius: '50%',
-    overflow: 'hidden'
-  },
-
-  repoName: {
-    color: '#bbb',
-    fontSize: '20px',
-    textAlign: 'center'
-  },
-
-  repoDescription: {
-    textAlign: 'center'
   }
 })
 
@@ -133,6 +69,6 @@ export default connect((state) => {
     repoReady: state.repo.status === 'ready',
     repo: state.repo.repo,
     issueReady: state.issues.status === 'ready',
-    issues: selectors.top(state.issues)
+    issues: selectors[state.issues.filter](state.issues)
   }
 })(Repo)

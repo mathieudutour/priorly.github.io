@@ -6,6 +6,8 @@ export const FETCH_ISSUES_RESOLVED = 'issues/FETCH_ISSUES_RESOLVED'
 export const UPVOTE_ISSUE = 'issues/UPVOTE_ISSUE'
 export const ERROR_POSTING_ISSUE = 'issues/ERROR_POSTING_ISSUE'
 export const POST_ISSUE_RESOLVED = 'issues/POST_ISSUE_RESOLVED'
+export const SEARCH_ISSUES_RESOLVED = 'issues/SEARCH_ISSUES_RESOLVED'
+export const CHANGE_FILTER = 'issues/CHANGE_FILTER'
 
 export function postIssue (repo, event) {
   event.preventDefault()
@@ -54,6 +56,23 @@ export function fetchIssues (repo, state) {
   }
 }
 
+export function searchIssues (repo, query) {
+  return (dispatch) => {
+    return axios(github(`/search/issues`, {
+      accept: 'application/vnd.github.squirrel-girl-preview',
+      token: window.localStorage.token,
+      data: {
+        q: 'type:issue repo:' + repo + ' ' + query
+      }
+    })).then((issues) => {
+      return dispatch({
+        type: SEARCH_ISSUES_RESOLVED,
+        issues: issues.data.items
+      })
+    })
+  }
+}
+
 export function upvoteIssue (repo, issue) {
   return (dispatch) => {
     return axios(github(`/repos/${repo}/issues/${issue.number}/reactions`, {
@@ -74,8 +93,20 @@ export function upvoteIssue (repo, issue) {
   }
 }
 
-export default (state = {status: 'loading', issues: {}}, action) => {
+export function changeFilter (filter) {
+  return {
+    type: CHANGE_FILTER,
+    filter
+  }
+}
+
+export default (state = {status: 'loading', issues: {}, filter: 'top'}, action) => {
   switch (action.type) {
+    case CHANGE_FILTER:
+      return {
+        ...state,
+        filter: action.filter
+      }
     case FETCH_ISSUES_RESOLVED:
       return {
         ...state,
@@ -84,6 +115,27 @@ export default (state = {status: 'loading', issues: {}}, action) => {
           prev[i.id] = i
           return prev
         }, {})
+      }
+    case SEARCH_ISSUES_RESOLVED:
+      return {
+        ...state,
+        status: 'ready',
+        issues: {
+          ...Object.keys(state.issues).reduce((prev, k) => {
+            prev[k] = {
+              ...state.issues[k],
+              searched: false,
+              relevant: undefined
+            }
+            return prev
+          }, {}),
+          ...action.issues.reduce((prev, issue, i) => {
+            prev[issue.id] = issue
+            prev[issue.id].searched = true
+            prev[issue.id].relevant = i
+            return prev
+          }, {})
+        }
       }
     case UPVOTE_ISSUE:
       return {
@@ -127,5 +179,19 @@ export const selectors = {
       .map(k => state.issues[k])
       .filter(i => !i.closed_at)
       .sort((a, b) => b.reactions['+1'] - a.reactions['+1'])
+  },
+
+  closed (state) {
+    return Object.keys(state.issues)
+      .map(k => state.issues[k])
+      .filter(i => i.closed_at)
+      .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
+  },
+
+  search (state) {
+    return Object.keys(state.issues)
+      .map(k => state.issues[k])
+      .filter(i => i.searched)
+      .sort((a, b) => a.relevant - b.relevant)
   }
 }
