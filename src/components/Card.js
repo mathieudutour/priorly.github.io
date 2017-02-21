@@ -1,4 +1,5 @@
 import React from 'react'
+import theme from './theme'
 import { StyleSheet, css } from 'aphrodite'
 
 const Card = ({children, styles}) => (
@@ -9,10 +10,10 @@ const Card = ({children, styles}) => (
 
 const _styles = StyleSheet.create({
   card: {
-    backgroundColor: '#fff',
-    border: '1px solid #e9e9e9',
+    backgroundColor: theme.white,
+    border: '1px solid ' + theme.background,
     borderRadius: '3px',
-    boxShadow: '0 1px 1px rgba(0, 0, 0, .1)'
+    boxShadow: theme.shadow
   }
 })
 

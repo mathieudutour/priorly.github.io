@@ -1,4 +1,5 @@
 import React from 'react'
+import theme from '../theme'
 import { StyleSheet, css } from 'aphrodite'
 
 const CloseIcon = ({styles}) => (
@@ -11,7 +12,7 @@ const _styles = StyleSheet.create({
   icon: {
     width: '20px',
     height: '20px',
-    fill: 'rgba(35, 35, 35, .4)'
+    fill: theme.grey
   }
 })
 

@@ -1,6 +1,7 @@
 /* @flow */
 
 import React from 'react'
+import theme from './theme'
 import {
   addNavigationHelpers,
   type NavigationNavigatorProps
@@ -45,7 +46,7 @@ const styles = StyleSheet.create({
   container: {
     display: 'flex',
     flexDirection: 'column',
-    backgroundColor: '#f6f6f6',
+    backgroundColor: theme.background,
     minWidth: '100vw',
     minHeight: '100vh',
     padding: '0 0 50px',

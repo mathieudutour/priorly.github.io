@@ -1,4 +1,5 @@
 import React from 'react'
+import theme from '../theme'
 import { StyleSheet, css } from 'aphrodite'
 
 const CommentIcon = ({styles}) => (
@@ -14,7 +15,7 @@ const _styles = StyleSheet.create({
     position: 'relative',
     top: '-1px',
     marginRight: '5px',
-    fill: 'rgba(35, 35, 35, .4)'
+    fill: theme.grey
   }
 })
 

@@ -1,4 +1,5 @@
 import React from 'react'
+import theme from './theme'
 import { StyleSheet, css } from 'aphrodite'
 import Link from './Link'
 import Container from './Container'
@@ -24,8 +25,8 @@ const styles = StyleSheet.create({
   topBar: {
     height: '60px',
     width: '100%',
-    backgroundColor: '#fff',
-    boxShadow: '0 1px 1px rgba(0, 0, 0, .1)',
+    backgroundColor: theme.white,
+    boxShadow: theme.shadow,
     margin: '0 0 30px',
 
     '@media (max-width: 780px)': {
@@ -49,15 +50,16 @@ const styles = StyleSheet.create({
 
   logo: {
     fontWeight: 700,
-    margin: '0 10px 0 0'
+    margin: '0 10px 0 0',
+    color: theme.primary
   },
 
   repo: {
-    color: '#666'
+    color: theme.darkest
   },
 
   login: {
-    backgroundColor: '#bbb',
+    backgroundColor: theme.grey,
     alignSelf: 'flex-end'
   }
 })

@@ -1,4 +1,5 @@
 import React from 'react'
+import theme from './theme'
 import debounce from 'lodash.debounce'
 import { connect } from 'react-redux'
 import { StyleSheet, css } from 'aphrodite'
@@ -66,7 +67,7 @@ const _styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    borderBottom: '1px solid #efefef'
+    borderBottom: '1px solid ' + theme.light
   },
 
   menu: {
@@ -74,8 +75,6 @@ const _styles = StyleSheet.create({
   },
 
   rightContainer: {
-    color: '#bbb',
-    fontSize: '15px',
     padding: '20px 30px',
     cursor: 'pointer'
   },

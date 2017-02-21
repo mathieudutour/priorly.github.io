@@ -1,4 +1,5 @@
 import React from 'react'
+import theme from './theme'
 import { connect } from 'react-redux'
 import Textarea from 'react-textarea-autosize'
 import { StyleSheet, css } from 'aphrodite'
@@ -26,7 +27,7 @@ const _styles = StyleSheet.create({
     position: 'relative',
     textTransform: 'uppercase',
     display: 'block',
-    color: '#999',
+    color: theme.darker,
     fontSize: '11px',
     fontWeight: 700,
     letterSpacing: '.05em',
@@ -38,8 +39,8 @@ const _styles = StyleSheet.create({
   input: {
     display: 'block',
     borderRadius: '3px',
-    border: '1px solid #ddd',
-    background: '#fff',
+    border: '1px solid ' + theme.light,
+    background: theme.white,
     padding: '24px 12px 8px',
     outline: 'none',
     color: '#333',
@@ -48,12 +49,12 @@ const _styles = StyleSheet.create({
     minHeight: '22px',
 
     ':focus': {
-      border: '1px solid #aaa'
+      border: '1px solid ' + theme.dark
     }
   },
 
   submit: {
-    backgroundColor: '#525df9',
+    background: theme.primary,
     alignSelf: 'flex-end',
     marginTop: '15px'
   }

@@ -1,4 +1,5 @@
 import React from 'react'
+import theme from './theme'
 import { StyleSheet, css } from 'aphrodite'
 import Shimmer from './Shimmer'
 
@@ -14,7 +15,7 @@ const _styles = StyleSheet.create({
     width: '36px',
     height: '36px',
     margin: '0 4px 4px',
-    background: '#ddd',
+    background: theme.light,
     borderRadius: '50%',
     overflow: 'hidden'
   }

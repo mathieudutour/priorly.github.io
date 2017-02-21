@@ -1,4 +1,5 @@
 import React from 'react'
+import theme from './theme'
 import { StyleSheet, css } from 'aphrodite'
 
 const Upvote = ({upvoted}) => (
@@ -11,7 +12,7 @@ const _styles = StyleSheet.create({
     height: 0,
     borderLeft: '9px solid transparent',
     borderRight: '9px solid transparent',
-    borderBottom: '9px solid rgba(35, 35, 35, .2)',
+    borderBottom: '9px solid ' + theme.grey,
     marginBottom: '7px',
     transition: 'all .1s ease-in-out'
   }

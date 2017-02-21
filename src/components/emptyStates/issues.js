@@ -1,4 +1,5 @@
 import React from 'react'
+import theme from '../theme'
 import { StyleSheet, css } from 'aphrodite'
 import BellIcon from '../icons/Bell'
 
@@ -13,14 +14,14 @@ const IssueEmptyState = () => (
 const styles = StyleSheet.create({
   container: {
     textAlign: 'center',
-    color: '#ddd',
+    color: theme.grey,
     padding: '30px'
   },
 
   icon: {
     width: '20%',
     minWidth: '80px',
-    fill: '#dadada'
+    fill: theme.light
   }
 })
 

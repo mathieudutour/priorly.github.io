@@ -1,4 +1,5 @@
 import React from 'react'
+import theme from './theme'
 import { StyleSheet, css } from 'aphrodite'
 
 const Button = ({children, styles, ...rest}) => (
@@ -9,7 +10,7 @@ const Button = ({children, styles, ...rest}) => (
 
 const _styles = StyleSheet.create({
   button: {
-    backgroundColor: '#525df9',
+    backgroundColor: theme.primary,
     alignSelf: 'flex-end',
     padding: '14px 16px',
     border: 'none',
