@@ -8,10 +8,10 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "pre-commit-lint": "lint-staged",
     "start": "webpack-dev-server --progress",
-    "build": "GOOGLE_ANALYTICS_UA=UA-92238652-1 NODE_ENV=production webpack -p --progress",
+    "build": "(rm -rf build || true) && mkdir build && cp src/manifest.json build/manifest.json && GOOGLE_ANALYTICS_UA=UA-92238652-1 NODE_ENV=production webpack -p --progress",
     "flow": "flow",
     "deploy-server": "cd oauth-server && serverless deploy",
-    "deploy": "(rm -rf build || true) && npm run build && cd build && git init && git checkout -b master && touch .nojekyll && git add . && git commit -m 'deploy :rocket:' && git push https://github.com/priorly/priorly.github.io master --force"
+    "deploy": "npm run build && cd build && git init && git checkout -b master && touch .nojekyll && git add . && git commit -m 'deploy :rocket:' && git push https://github.com/priorly/priorly.github.io master --force"
   },
   "author": "Mathieu Dutour <mathieu@dutour.me> (http://mathieu.dutour.me/)",
   "license": "MIT",
@@ -41,6 +41,7 @@
     "babel-preset-stage-0": "6.22.0",
     "compression-webpack-plugin": "0.3.2",
     "copy-webpack-plugin": "4.0.1",
+    "favicons-webpack-plugin": "0.0.7",
     "flow-bin": "0.38.0",
     "html-webpack-plugin": "2.28.0",
     "lint-staged": "3.3.0",
@@ -51,8 +52,8 @@
     "serverless": "1.7.0",
     "standard": "8.6.0",
     "webpack": "2.2.1",
-    "webpack-dev-server": "2.3.0",
-    "webpack-manifest-plugin": "1.1.0"
+    "webpack-assets-manifest": "0.6.1",
+    "webpack-dev-server": "2.3.0"
   },
   "pre-commit": [
     "pre-commit-lint"

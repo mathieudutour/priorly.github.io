@@ -1,20 +1,14 @@
 <!DOCTYPE html>
-<html<% if( htmlWebpackPlugin.files.manifest) { %> manifest="<%=  htmlWebpackPlugin.files.manifest %>"<% } %>>
+<html manifest="/manifest.json">
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
 		<meta name="mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="theme-color" content="#FFF">
-		<% if ( htmlWebpackPlugin.options.manifest) { %>
-			<link rel="manifest" href="<%= htmlWebpackPlugin.options.manifest %>">
-		<% } %>
-		<% if ( htmlWebpackPlugin.files.favicon) { %>
-			<link rel="shortcut icon" href="<%= htmlWebpackPlugin.files.favicon %>">
-		<% } %>
-		<% if ( htmlWebpackPlugin.options.icon) { %>
-			<link rel="icon" sizes="300x300" href="<%= htmlWebpackPlugin.options.icon %>">
-		<% } %>
+		<link rel="manifest" href="/manifest.json">
+		<link rel="shortcut icon" href="icons/favicon.ico">
+		<link rel="icon" sizes="230x230" href="icons/favicon-230x230.png">
 		<style>
 			body {
 				margin: 0;

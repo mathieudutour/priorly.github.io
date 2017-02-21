@@ -2,10 +2,11 @@ const path = require('path')
 const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin')
-const ManifestPlugin = require('webpack-manifest-plugin')
+const ManifestPlugin = require('webpack-assets-manifest')
 const OfflinePlugin = require('offline-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const AppShellRenderer = require('./app-shell-renderer.js')
 
 const PROD = process.env.NODE_ENV === 'production'
@@ -35,7 +36,9 @@ module.exports = {
     ]
   },
   plugins: [
-    new CopyWebpackPlugin([{ from: './src/CNAME' }]),
+    new CopyWebpackPlugin([
+      { from: './src/CNAME' }
+    ]),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
       minChunks: Infinity
@@ -44,6 +47,16 @@ module.exports = {
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
       'process.env.GOOGLE_ANALYTICS_UA': JSON.stringify(process.env.GOOGLE_ANALYTICS_UA)
+    }),
+    new FaviconsWebpackPlugin({
+      logo: './src/logo.png',
+      prefix: 'icons/',
+      emitStats: false,
+      inject: false,
+      title: 'Prior.ly',
+      icons: {
+        firefox: false
+      }
     }),
     new HtmlWebpackPlugin({
       template: './src/index.html',
@@ -60,7 +73,8 @@ module.exports = {
       defaultAttribute: 'async'
     }),
     new ManifestPlugin({
-      fileName: 'manifest.json'
+      output: 'manifest.json',
+      merge: true
     })
   ].concat(PROD ? [
     new OfflinePlugin({
