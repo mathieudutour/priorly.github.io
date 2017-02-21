@@ -6,7 +6,11 @@ import Shimmer from './Shimmer'
 const Avatar = ({user, loading, styles}) => (
   <div className={css(_styles.face, styles)}>
     {loading && <Shimmer />}
-    {!loading && <img src={user.avatar_url + '&s=36'} style={{width: '100%'}} />}
+    {!loading &&
+      <img
+        src={user.avatar_url + '&s=36'}
+        style={{width: '100%'}}
+        alt={user.login + '\'s avatar'} />}
   </div>
 )
 
