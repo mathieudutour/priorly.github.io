@@ -11,7 +11,7 @@
     "build": "(rm -rf build || true) && mkdir build && cp src/manifest.json build/manifest.json && GOOGLE_ANALYTICS_UA=UA-92238652-1 NODE_ENV=production webpack -p --progress",
     "flow": "flow",
     "deploy-server": "cd oauth-server && serverless deploy",
-    "deploy": "npm run build && aws s3 sync build s3://prior.ly --region eu-west-1 --profile perso"
+    "deploy": "npm run build && aws s3 sync build s3://prior.ly --region eu-west-1 --profile perso --delete && aws cloudfront create-invalidation --distribution-id E1QXW3CD5SPB7B --paths /index.html --profile perso"
   },
   "author": "Mathieu Dutour <mathieu@dutour.me> (http://mathieu.dutour.me/)",
   "license": "MIT",

@@ -8,10 +8,10 @@ import { postIssue } from '../reducers/issues'
 
 const CreateIssue = ({styles, dispatch, repoName}) => (
   <form className={css(_styles.form, styles)} onSubmit={(e) => dispatch(postIssue(repoName, e))}>
-    <label className={css(_styles.label)}>Title</label>
-    <input className={css(_styles.input)} placeholder='Short, descriptive title' />
-    <label className={css(_styles.label)}>Details</label>
-    <Textarea className={css(_styles.input)} placeholder='Any additional details...' />
+    <label className={css(_styles.label)} htmlFor='title'>Title</label>
+    <input id='title' className={css(_styles.input)} placeholder='Short, descriptive title' />
+    <label className={css(_styles.label)} htmlFor='description'>Details</label>
+    <Textarea id='description' className={css(_styles.input)} placeholder='Any additional details...' />
     <Button styles={_styles.submit} type='submit'>Create post</Button>
   </form>
 )
