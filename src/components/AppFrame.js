@@ -8,6 +8,7 @@ import {
 } from 'react-navigation/lib/react-navigation.web'
 import { StyleSheet, css } from 'aphrodite'
 import TopBar from './TopBar'
+import LoginOverlay from './LoginOverlay'
 
 function getRepo (state) {
   const { params = {
@@ -37,6 +38,7 @@ class AppFrame extends React.Component {
       <div className={css(styles.container)}>
         <TopBar repoName={repoName} />
         <ScreenView navigation={childNavigation} repoName={repoName} />
+        <LoginOverlay />
       </div>
     )
   }

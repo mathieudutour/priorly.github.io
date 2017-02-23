@@ -8,6 +8,9 @@ export const FETCH_USER_RESOLVED = 'user/FETCH_USER_RESOLVED'
 export const LOGOUT = 'user/LOGOUT'
 
 export function fetchToken () {
+  if (window.localStorage.token) {
+    return (d) => d(fetchUser())
+  }
   const parsed = qs.parse(window.location.search)
   let code = (parsed || {}).code
   if (Array.isArray(code)) {
@@ -24,9 +27,6 @@ export function fetchToken () {
           }
         })
     }
-  }
-  if (window.localStorage.token) {
-    return (d) => d(fetchUser())
   }
   return {
     type: NOT_FETCHING_USER

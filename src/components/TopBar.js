@@ -56,11 +56,6 @@ const styles = StyleSheet.create({
 
   repo: {
     color: theme.darkest
-  },
-
-  login: {
-    backgroundColor: theme.grey,
-    alignSelf: 'flex-end'
   }
 })
 

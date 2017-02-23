@@ -1,6 +1,7 @@
 /* @flow */
 import axios from 'axios'
 import github from './_github'
+import { SHOW_LOGIN_OVERLAY } from './ui'
 
 export const FETCH_ISSUES_RESOLVED = 'issues/FETCH_ISSUES_RESOLVED'
 export const UPVOTE_ISSUE = 'issues/UPVOTE_ISSUE'
@@ -16,6 +17,11 @@ export function postIssue (repo, event) {
     return {
       type: ERROR_POSTING_ISSUE,
       error: 'Oops! You forgot to enter a post title.'
+    }
+  }
+  if (!window.localStorage.token) {
+    return {
+      type: SHOW_LOGIN_OVERLAY
     }
   }
   return (dispatch) => {
@@ -74,6 +80,11 @@ export function searchIssues (repo, query) {
 }
 
 export function upvoteIssue (repo, issue) {
+  if (!window.localStorage.token) {
+    return {
+      type: SHOW_LOGIN_OVERLAY
+    }
+  }
   return (dispatch) => {
     return axios(github(`/repos/${repo}/issues/${issue.number}/reactions`, {
       accept: 'application/vnd.github.squirrel-girl-preview',
