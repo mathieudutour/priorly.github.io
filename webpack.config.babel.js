@@ -5,7 +5,6 @@ const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin')
 const ManifestPlugin = require('webpack-assets-manifest')
 const OfflinePlugin = require('offline-plugin')
 const CompressionPlugin = require('compression-webpack-plugin')
-const CopyWebpackPlugin = require('copy-webpack-plugin')
 const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
 const AppShellRenderer = require('./app-shell-renderer.js')
 
@@ -14,7 +13,7 @@ const PROD = process.env.NODE_ENV === 'production'
 module.exports = {
   entry: {
     app: './src/index.js',
-    vendor: ['react', 'react-navigation', 'react-dom', 'redux', 'axios', 'react-redux', 'redux-thunk', 'uuid', 'query-string']
+    vendor: ['react', 'react-navigation', 'react-dom', 'redux', 'axios', 'react-redux', 'redux-thunk', 'uuid', 'query-string', 'aphrodite', 'lodash.debounce', 'react-textarea-autosize']
   },
   output: {
     path: path.resolve(__dirname, './build'),
@@ -36,9 +35,6 @@ module.exports = {
     ]
   },
   plugins: [
-    new CopyWebpackPlugin([
-      { from: './src/CNAME' }
-    ]),
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor',
       minChunks: Infinity
