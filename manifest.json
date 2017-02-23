@@ -1,0 +1,38 @@
+{
+  "app.js": "app.e4041c27.js",
+  "background_color": "#f6f6f6",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "icons/apple-touch-icon-120x120.png",
+      "sizes": "120x120",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/apple-touch-icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/android-chrome-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/splashscreen-icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    }
+  ],
+  "icons/logo.png": "icons/.cache",
+  "name": "Prior.ly",
+  "short_name": "Prior.ly",
+  "start_url": "/",
+  "theme_color": "#FFF",
+  "vendor.js": "vendor.e4041c27.js"
+}
