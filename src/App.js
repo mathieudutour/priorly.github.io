@@ -15,27 +15,27 @@ const router = TabRouter({
     screen: Repo,
     path: '',
     navigationOptions: {
-      title: 'Home'
+      title: 'Prior.ly'
     }
   },
   Repo: {
     screen: Repo,
     path: ':owner/:repo',
     navigationOptions: {
-      title: 'Repo'
+      title: 'Prior.ly'
     }
   },
   About: {
     screen: About,
     path: 'about',
     navigationOptions: {
-      title: 'About'
+      title: 'Prior.ly - About'
     }
   },
   NotFound: {
     screen: NotFound,
     navigationOptions: {
-      title: 'Page Not Found'
+      title: 'Prior.ly - Page Not Found'
     }
   }
 })
