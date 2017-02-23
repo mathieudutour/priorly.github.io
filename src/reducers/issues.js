@@ -94,12 +94,11 @@ export function upvoteIssue (repo, issue) {
         content: '+1'
       }
     })).then((res) => {
-      if (res.status === 201) {
-        return dispatch({
-          type: UPVOTE_ISSUE,
-          issue: issue.id
-        })
-      }
+      return dispatch({
+        type: UPVOTE_ISSUE,
+        issue: issue.id,
+        alreadyUpvoted: res.status !== 201
+      })
     })
   }
 }
@@ -157,8 +156,11 @@ export default (state = {status: 'loading', issues: {}, filter: 'top'}, action) 
             ...state.issues[action.issue],
             reactions: {
               ...state.issues[action.issue].reactions,
-              '+1': state.issues[action.issue].reactions['+1'] + 1,
-              total_count: state.issues[action.issue].reactions.total_count + 1
+              upvoted: true,
+              ...!action.alreadyUpvoted && {
+                '+1': state.issues[action.issue].reactions['+1'] + 1,
+                total_count: state.issues[action.issue].reactions.total_count + 1
+              }
             }
           }
         }

@@ -3,7 +3,7 @@ import theme from './theme'
 import { StyleSheet, css } from 'aphrodite'
 
 const Upvote = ({upvoted}) => (
-  <div className={css(_styles.upvote)} />
+  <div className={css(_styles.upvote, upvoted && _styles.upvoted)} />
 )
 
 const _styles = StyleSheet.create({
@@ -15,6 +15,10 @@ const _styles = StyleSheet.create({
     borderBottom: '9px solid ' + theme.grey,
     marginBottom: '7px',
     transition: 'all .1s ease-in-out'
+  },
+
+  upvoted: {
+    borderBottom: '9px solid ' + theme.primary
   }
 })
 

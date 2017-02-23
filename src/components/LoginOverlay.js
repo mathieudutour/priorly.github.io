@@ -51,12 +51,14 @@ const styles = StyleSheet.create({
     padding: '20px',
     transition: 'all 0.2s ease-in-out',
     opacity: 0,
-    transitionDelay: 0
+    transitionDelay: 0,
+    pointerEvents: 'none'
   },
 
   cardVisible: {
     opacity: 1,
-    transitionDelay: '0.1s'
+    transitionDelay: '0.1s',
+    pointerEvents: 'all'
   }
 })
 

@@ -11,7 +11,7 @@
     "build": "(rm -rf build || true) && mkdir build && cp src/manifest.json build/manifest.json && GOOGLE_ANALYTICS_UA=UA-92238652-1 NODE_ENV=production webpack -p --progress",
     "flow": "flow",
     "deploy-server": "cd oauth-server && serverless deploy",
-    "deploy": "npm run build && cd build && git init && git checkout -b master && touch .nojekyll && git add . && git commit -m 'deploy :rocket:' && git push https://github.com/priorly/priorly.github.io master --force"
+    "deploy": "npm run build && aws s3 sync build s3://prior.ly --region eu-west-1 --profile perso"
   },
   "author": "Mathieu Dutour <mathieu@dutour.me> (http://mathieu.dutour.me/)",
   "license": "MIT",
