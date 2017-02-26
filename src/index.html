@@ -24,7 +24,7 @@
 	<body>
     <div id="app"><%= (htmlWebpackPlugin.options.rendered || {}).html %></div>
 		<% for (var chunk in  htmlWebpackPlugin.files.chunks) { %>
-			<script rel="preload" src="/<%= htmlWebpackPlugin.files.chunks[chunk].entry %>" as="script"></script>
+			<script rel="preload" src="<%= htmlWebpackPlugin.files.chunks[chunk].entry %>" as="script"></script>
 		<% } %>
     <% if ( htmlWebpackPlugin.options.GOOGLE_ANALYTICS_UA) { %>
       <script>window.addEventListener('error', window.__e=function f(e){f.q=f.q||[];f.q.push(e)});</script>

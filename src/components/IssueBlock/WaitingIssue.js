@@ -1,8 +1,8 @@
 import React from 'react'
 import { StyleSheet, css } from 'aphrodite'
 import Upvote from './Upvote'
-import CommentIcon from './icons/Comment'
-import Shimmer from './Shimmer'
+import CommentIcon from '../icons/Comment'
+import Shimmer from '../Shimmer'
 
 const widths = [
   '150px',

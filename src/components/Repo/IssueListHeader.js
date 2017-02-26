@@ -1,11 +1,11 @@
 import React from 'react'
-import theme from '../theme'
+import theme from '../../theme'
 import debounce from 'lodash.debounce'
 import { connect } from 'react-redux'
 import { StyleSheet, css } from 'aphrodite'
-import SearchIcon from './icons/Search'
-import CloseIcon from './icons/Close'
-import { searchIssues, changeFilter } from '../reducers/issues'
+import SearchIcon from '../icons/Search'
+import CloseIcon from '../icons/Close'
+import { searchIssues, changeFilter } from '../../reducers/issues'
 
 class IssueListHeader extends React.Component {
   constructor (props) {

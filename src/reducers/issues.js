@@ -39,6 +39,7 @@ export function postIssue (repo, event) {
       }
       return dispatch({
         type: POST_ISSUE_RESOLVED,
+        repoName: repo,
         issue: issue.data
       })
     })
@@ -56,6 +57,7 @@ export function fetchIssues (repo, state) {
     })).then((issues) => {
       return dispatch({
         type: FETCH_ISSUES_RESOLVED,
+        repoName: repo,
         issues: issues.data.filter(i => !i.pull_request)
       })
     })
@@ -73,6 +75,7 @@ export function searchIssues (repo, query) {
     })).then((issues) => {
       return dispatch({
         type: SEARCH_ISSUES_RESOLVED,
+        repoName: repo,
         issues: issues.data.items
       })
     })
@@ -121,10 +124,14 @@ export default (state = {status: 'loading', issues: {}, filter: 'top'}, action) 
       return {
         ...state,
         status: 'ready',
-        issues: action.issues.reduce((prev, i) => {
-          prev[i.id] = i
-          return prev
-        }, {})
+        issues: {
+          ...state.issues,
+          ...action.issues.reduce((prev, i) => {
+            i.id = `${action.repoName}/${i.number}`
+            prev[i.id] = i
+            return prev
+          }, {})
+        }
       }
     case SEARCH_ISSUES_RESOLVED:
       return {
@@ -140,6 +147,7 @@ export default (state = {status: 'loading', issues: {}, filter: 'top'}, action) 
             return prev
           }, {}),
           ...action.issues.reduce((prev, issue, i) => {
+            issue.id = `${action.repoName}/${issue.number}`
             prev[issue.id] = issue
             prev[issue.id].searched = true
             prev[issue.id].relevant = i
@@ -166,6 +174,7 @@ export default (state = {status: 'loading', issues: {}, filter: 'top'}, action) 
         }
       }
     case POST_ISSUE_RESOLVED:
+      action.issue.id = `${action.repoName}/${action.issue.number}`
       return {
         ...state,
         status: 'ready',
@@ -179,32 +188,47 @@ export default (state = {status: 'loading', issues: {}, filter: 'top'}, action) 
   }
 }
 
+function filterAndSort (issues, repoName, filter, sort) {
+  return Object.keys(issues).reduce((prev, k) => {
+    const issue = issues[k]
+    if (issue.id.indexOf(repoName) === 0 && filter(issue)) {
+      prev.push(issue)
+    }
+    return prev
+  }, [])
+  .sort(sort)
+}
+
 export const selectors = {
-  new (state) {
-    return Object.keys(state.issues)
-      .map(k => state.issues[k])
-      .filter(i => !i.closed_at)
-      .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+  new (state, repoName) {
+    return filterAndSort(state.issues, repoName,
+      i => !i.closed_at,
+      (a, b) => new Date(b.created_at) - new Date(a.created_at)
+    )
   },
 
-  top (state) {
-    return Object.keys(state.issues)
-      .map(k => state.issues[k])
-      .filter(i => !i.closed_at)
-      .sort((a, b) => b.reactions['+1'] - a.reactions['+1'])
+  top (state, repoName) {
+    return filterAndSort(state.issues, repoName,
+      i => !i.closed_at,
+      (a, b) => b.reactions['+1'] - a.reactions['+1']
+    )
   },
 
-  closed (state) {
-    return Object.keys(state.issues)
-      .map(k => state.issues[k])
-      .filter(i => i.closed_at)
-      .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
+  closed (state, repoName) {
+    return filterAndSort(state.issues, repoName,
+      i => i.closed_at,
+      (a, b) => new Date(b.updated_at) - new Date(a.updated_at)
+    )
   },
 
-  search (state) {
-    return Object.keys(state.issues)
-      .map(k => state.issues[k])
-      .filter(i => i.searched)
-      .sort((a, b) => a.relevant - b.relevant)
+  search (state, repoName) {
+    return filterAndSort(state.issues, repoName,
+      i => i.searched,
+      (a, b) => a.relevant - b.relevant
+    )
+  },
+
+  issue (state, issueId) {
+    return state.issues[issueId]
   }
 }

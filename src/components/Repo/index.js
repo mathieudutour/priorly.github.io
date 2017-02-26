@@ -3,18 +3,17 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { StyleSheet } from 'aphrodite'
-import TopBar from './TopBar'
-import Container from './Container'
-import Card from './Card'
-import Issue from './Issue'
-import WaitingIssue from './WaitingIssue'
-import IssueEmptyState from './emptyStates/issues'
+import TopBar from '../TopBar'
+import Container from '../Container'
+import Card from '../Card'
+import IssueBlock from '../IssueBlock'
+import IssueEmptyState from '../emptyStates/issues'
 import RepoCard from './RepoCard'
 import IssueListHeader from './IssueListHeader'
-import { fetchIssues, selectors } from '../reducers/issues'
-import { fetchRepo } from '../reducers/repo'
+import { fetchIssues, selectors } from '../../reducers/issues'
+import { fetchRepo } from '../../reducers/repo'
 
-function repoName (props) {
+function getRepoName (props) {
   return props.match.params.owner + '/' + props.match.params.repo
 }
 
@@ -44,12 +43,12 @@ class Repo extends React.Component {
             <IssueListHeader repoName={this.props.repoName} />
             {this.props.issues.length > 0 && !this.props.issueReady && 'Loading...'}
             {this.props.issues.length === 0 && !this.props.issueReady && (
-              Array.from(Array(5)).map((_, i) => <WaitingIssue key={i} index={i} />)
+              Array.from(Array(5)).map((_, i) => <IssueBlock key={i} waiting index={i} />)
             )}
             {this.props.issues.length === 0 && this.props.issueReady && (
               <IssueEmptyState />
             )}
-            {this.props.issues.map(i => <Issue key={i.id} issue={i} repoName={this.props.repoName} />)}
+            {this.props.issues.map(i => <IssueBlock key={i.id} issue={i} repoName={this.props.repoName} showComment />)}
           </Card>
         </Container>
       </div>
@@ -72,12 +71,13 @@ const styles = StyleSheet.create({
 })
 
 export default connect((state, ownProps) => {
+  const repoName = getRepoName(ownProps)
   return {
-    repoName: repoName(ownProps),
+    repoName,
     userReady: state.user.status === 'ready',
     repoReady: state.repo.status === 'ready',
     repo: state.repo.repo,
     issueReady: state.issues.status === 'ready',
-    issues: selectors[state.issues.filter](state.issues)
+    issues: selectors[state.issues.filter](state.issues, repoName)
   }
 })(Repo)

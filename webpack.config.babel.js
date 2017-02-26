@@ -17,8 +17,9 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, './build'),
-    filename: '[name].[hash:8].js',
-    chunkFilename: '[id].[hash:8].chunk.js'
+    filename: '[name].[chunkhash].js',
+    chunkFilename: '[id].[chunkhash].chunk.js',
+    publicPath: '/'
   },
   resolve: {
     alias: {
@@ -31,6 +32,10 @@ module.exports = {
         test: /\.js$/,
         loader: 'babel-loader',
         exclude: /node_modules/
+      },
+      {
+        test: /\.css$/,
+        loader: [ 'style-loader', 'css-loader' ]
       }
     ]
   },

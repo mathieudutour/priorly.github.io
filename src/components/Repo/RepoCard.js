@@ -1,12 +1,12 @@
 /* @flow */
 
 import React from 'react'
-import theme from '../theme'
+import theme from '../../theme'
 import { StyleSheet, css } from 'aphrodite'
-import Card from './Card'
+import Card from '../Card'
 import CreateIssueForm from './CreateIssueForm'
-import Avatar from './Avatar'
-import Shimmer from './Shimmer'
+import Avatar from '../Avatar'
+import Shimmer from '../Shimmer'
 
 const RepoCard = ({ready, repo, repoName}) => (
   <Card styles={styles.sidebar}>

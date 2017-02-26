@@ -1,10 +1,10 @@
 import React from 'react'
-import theme from '../theme'
+import theme from '../../theme'
 import { connect } from 'react-redux'
 import Textarea from 'react-textarea-autosize'
 import { StyleSheet, css } from 'aphrodite'
-import Button from './Button'
-import { postIssue } from '../reducers/issues'
+import Button from '../Button'
+import { postIssue } from '../../reducers/issues'
 
 const CreateIssue = ({styles, dispatch, repoName}) => (
   <form className={css(_styles.form, styles)} onSubmit={(e) => dispatch(postIssue(repoName, e))}>
