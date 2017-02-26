@@ -30,8 +30,8 @@ export function loadMarkdown () {
   if (loadingMarkdown) { return {type: 'ignore'} }
   loadingMarkdown = true
   return (dispatch) => Promise.all([
-    import('marky-markdown'),
-    import('../markdown-css')
+    System.import('marky-markdown'),
+    System.import('../markdown-css')
   ]).then(([md, css]) => {
     addStyleTag(css.default)
     markdownCache = md
