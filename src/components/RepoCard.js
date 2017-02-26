@@ -1,7 +1,7 @@
 /* @flow */
 
 import React from 'react'
-import theme from './theme'
+import theme from '../theme'
 import { StyleSheet, css } from 'aphrodite'
 import Card from './Card'
 import CreateIssueForm from './CreateIssueForm'

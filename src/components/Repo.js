@@ -3,6 +3,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { StyleSheet } from 'aphrodite'
+import TopBar from './TopBar'
 import Container from './Container'
 import Card from './Card'
 import Issue from './Issue'
@@ -12,6 +13,10 @@ import RepoCard from './RepoCard'
 import IssueListHeader from './IssueListHeader'
 import { fetchIssues, selectors } from '../reducers/issues'
 import { fetchRepo } from '../reducers/repo'
+
+function repoName (props) {
+  return props.match.params.owner + '/' + props.match.params.repo
+}
 
 class Repo extends React.Component {
   componentDidMount () {
@@ -31,20 +36,23 @@ class Repo extends React.Component {
   }
   render () {
     return (
-      <Container styles={styles.container}>
-        <RepoCard ready={this.props.repoReady} repo={this.props.repo} repoName={this.props.repoName} />
-        <Card styles={styles.issuesList}>
-          <IssueListHeader repoName={this.props.repoName} />
-          {this.props.issues.length > 0 && !this.props.issueReady && 'Loading...'}
-          {this.props.issues.length === 0 && !this.props.issueReady && (
-            Array.from(Array(5)).map((_, i) => <WaitingIssue key={i} index={i} />)
-          )}
-          {this.props.issues.length === 0 && this.props.issueReady && (
-            <IssueEmptyState />
-          )}
-          {this.props.issues.map(i => <Issue key={i.id} issue={i} repoName={this.props.repoName} />)}
-        </Card>
-      </Container>
+      <div>
+        <TopBar repoName={this.props.repoName} />
+        <Container styles={styles.container}>
+          <RepoCard ready={this.props.repoReady} repo={this.props.repo} repoName={this.props.repoName} />
+          <Card styles={styles.issuesList}>
+            <IssueListHeader repoName={this.props.repoName} />
+            {this.props.issues.length > 0 && !this.props.issueReady && 'Loading...'}
+            {this.props.issues.length === 0 && !this.props.issueReady && (
+              Array.from(Array(5)).map((_, i) => <WaitingIssue key={i} index={i} />)
+            )}
+            {this.props.issues.length === 0 && this.props.issueReady && (
+              <IssueEmptyState />
+            )}
+            {this.props.issues.map(i => <Issue key={i.id} issue={i} repoName={this.props.repoName} />)}
+          </Card>
+        </Container>
+      </div>
     )
   }
 }
@@ -63,8 +71,9 @@ const styles = StyleSheet.create({
   }
 })
 
-export default connect((state) => {
+export default connect((state, ownProps) => {
   return {
+    repoName: repoName(ownProps),
     userReady: state.user.status === 'ready',
     repoReady: state.repo.status === 'ready',
     repo: state.repo.repo,

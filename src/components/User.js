@@ -1,5 +1,5 @@
 import React from 'react'
-import theme from './theme'
+import theme from '../theme'
 import { connect } from 'react-redux'
 import { StyleSheet } from 'aphrodite'
 import Button from './Button'

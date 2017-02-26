@@ -1,5 +1,5 @@
 import React from 'react'
-import theme from './theme'
+import theme from '../theme'
 import debounce from 'lodash.debounce'
 import { connect } from 'react-redux'
 import { StyleSheet, css } from 'aphrodite'

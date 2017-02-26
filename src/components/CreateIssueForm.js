@@ -1,5 +1,5 @@
 import React from 'react'
-import theme from './theme'
+import theme from '../theme'
 import { connect } from 'react-redux'
 import Textarea from 'react-textarea-autosize'
 import { StyleSheet, css } from 'aphrodite'

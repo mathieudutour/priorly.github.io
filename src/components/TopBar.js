@@ -1,7 +1,7 @@
 import React from 'react'
-import theme from './theme'
+import theme from '../theme'
 import { StyleSheet, css } from 'aphrodite'
-import Link from './Link'
+import { Link } from 'react-router-dom'
 import Container from './Container'
 import User from './User'
 
@@ -9,10 +9,10 @@ const TopBar = ({repoName}) => (
   <nav className={css(styles.topBar)}>
     <Container styles={styles.container}>
       <div>
-        <Link to='About' className={css(styles.link, styles.logo)}>
+        <Link to='/about' className={css(styles.link, styles.logo)}>
           Prior.ly
         </Link>
-        <Link to='Repo' className={css(styles.link, styles.repo)}>
+        <Link to={'/' + repoName} className={css(styles.link, styles.repo)}>
           {repoName}
         </Link>
       </div>

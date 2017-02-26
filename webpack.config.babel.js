@@ -13,7 +13,7 @@ const PROD = process.env.NODE_ENV === 'production'
 module.exports = {
   entry: {
     app: './src/index.js',
-    vendor: ['react', 'react-navigation', 'react-dom', 'redux', 'axios', 'react-redux', 'redux-thunk', 'uuid', 'query-string', 'aphrodite', 'lodash.debounce', 'react-textarea-autosize']
+    vendor: ['react', 'react-router-dom', 'react-dom', 'redux', 'axios', 'react-redux', 'redux-thunk', 'uuid', 'query-string', 'aphrodite', 'lodash.debounce', 'react-textarea-autosize']
   },
   output: {
     path: path.resolve(__dirname, './build'),
@@ -63,7 +63,7 @@ module.exports = {
       minify: {
         collapseWhitespace: PROD
       },
-      rendered: AppShellRenderer('./src', './src/reducers')
+      rendered: AppShellRenderer('./src/App', './src/reducers')
     }),
     new ScriptExtHtmlWebpackPlugin({
       defaultAttribute: 'async'
@@ -101,5 +101,11 @@ module.exports = {
       threshold: 10240,
       minRatio: 0.8
     })
-  ] : [])
+  ] : []),
+  devServer: {
+    historyApiFallback: {
+      verbose: true,
+      disableDotRule: true
+    }
+  }
 }
