@@ -1,5 +1,5 @@
 /* @flow */
-
+import { type UserType } from '../../../flow/types'
 import React from 'react'
 import theme from '../../theme'
 import { StyleSheet, css } from 'aphrodite'
@@ -8,7 +8,18 @@ import CreateIssueForm from './CreateIssueForm'
 import Avatar from '../Avatar'
 import Shimmer from '../Shimmer'
 
-const RepoCard = ({ready, repo, repoName}) => (
+type propTypes = {
+  ready: boolean,
+  repo: {
+    description: string,
+    full_name: string,
+    collaborators: ?Array<UserType>,
+    owner: UserType
+  },
+  repoName: string,
+}
+
+const RepoCard = ({ready, repo, repoName}: propTypes) => (
   <Card styles={styles.sidebar}>
     <div className={css(styles.faces)}>
       {ready && (repo.collaborators || [repo.owner]).map(c =>

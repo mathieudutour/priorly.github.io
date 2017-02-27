@@ -1,8 +1,10 @@
+/* @flow */
+
 import React from 'react'
 import theme from '../../theme'
 import { StyleSheet, css } from 'aphrodite'
 
-const Upvote = ({upvoted}) => (
+const Upvote = ({upvoted}: {upvoted?: boolean}) => (
   <div className={css(_styles.upvote, upvoted && _styles.upvoted)} />
 )
 

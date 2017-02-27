@@ -1,10 +1,11 @@
 {
   "name": "priorly",
-  "private": "true",
+  "private": true,
   "version": "0.1.0",
   "description": "",
   "main": "client/index.js",
   "scripts": {
+    "lint": "standard",
     "test": "echo \"Error: no test specified\" && exit 1",
     "pre-commit-lint": "lint-staged",
     "start": "webpack-dev-server --progress",
@@ -57,9 +58,10 @@
     "pre-commit-lint"
   ],
   "lint-staged": {
-    "*.js": "standard && prettier --write"
+    "*.js": "npm run lint"
   },
   "standard": {
-    "parser": "babel-eslint"
+    "parser": "babel-eslint",
+    "globals": ["SyntheticMouseEvent", "SyntheticInputEvent"]
   }
 }

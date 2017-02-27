@@ -1,3 +1,5 @@
+/* @flow */
+
 import React from 'react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
@@ -7,7 +9,7 @@ import WaitingIssue from './WaitingIssue'
 import CommentIcon from '../icons/Comment'
 import { upvoteIssue } from '../../reducers/issues'
 
-const Votes = ({reactions, onVote}) => (
+const Votes = ({reactions, onVote}: {reactions: Object, onVote: (e: SyntheticMouseEvent) => void}) => (
   <div className={css(_styles.votes)} onClick={onVote}>
     <Upvote upvoted={(reactions || {}).upvoted} />
     <span className={css(_styles.upvotesNumber)}>{(reactions || {})['+1']}</span>

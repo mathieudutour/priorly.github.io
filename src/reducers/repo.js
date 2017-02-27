@@ -1,11 +1,12 @@
 /* @flow */
+import { type Dispatch, type Status, type Action } from '../../flow/types'
 import axios from 'axios'
 import github from './_github'
 
 export const FETCH_REPO_RESOLVED = 'repo/FETCH_REPO_RESOLVED'
 
-export function fetchRepo (repo, state) {
-  return (dispatch) => {
+export function fetchRepo (repo: string) {
+  return (dispatch: Dispatch) => {
     return axios(github(`/repos/${repo}`, {
       token: window.localStorage.token
     }))
@@ -18,7 +19,12 @@ export function fetchRepo (repo, state) {
   }
 }
 
-export default (state = {status: 'loading', repo: null}, action) => {
+type State = {
+  status: Status,
+  repo: ?Object
+}
+
+export default (state: State = {status: 'loading', repo: null}, action: Action) => {
   switch (action.type) {
     case FETCH_REPO_RESOLVED:
       return {

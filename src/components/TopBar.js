@@ -1,3 +1,4 @@
+/* @flow */
 import React from 'react'
 import theme from '../theme'
 import { StyleSheet, css } from 'aphrodite'
@@ -5,7 +6,7 @@ import { Link } from 'react-router-dom'
 import Container from './Container'
 import User from './User'
 
-const TopBar = ({repoName}) => (
+const TopBar = ({repoName}: {repoName: string}) => (
   <nav className={css(styles.topBar)}>
     <Container styles={styles.container}>
       <div>

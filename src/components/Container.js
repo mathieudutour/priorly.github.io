@@ -1,7 +1,14 @@
-import React from 'react'
+/* @flow */
+import { type AphroStyle } from '../../flow/types'
+import React, {Element} from 'react'
 import { StyleSheet, css } from 'aphrodite'
 
-const Container = ({children, styles}) => (
+type propTypes = {
+  children?: Element<any>,
+  styles?: AphroStyle
+}
+
+const Container = ({children, styles}: propTypes) => (
   <div className={css(_styles.container, styles)}>
     {children}
   </div>

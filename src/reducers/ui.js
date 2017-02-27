@@ -1,4 +1,6 @@
 /* @flow */
+import { type Dispatch, type Action } from '../../flow/types'
+
 export const HIDE_LOGIN_OVERLAY = 'ui/HIDE_LOGIN_OVERLAY'
 export const SHOW_LOGIN_OVERLAY = 'ui/SHOW_LOGIN_OVERLAY'
 export const MARKDOWN_LOADED = 'ui/MARKDOWN_LOADED'
@@ -17,11 +19,7 @@ function addStyleTag (css) {
   const style = document.createElement('style')
 
   style.type = 'text/css'
-  if (style.styleSheet) {
-    style.styleSheet.cssText = css
-  } else {
-    style.appendChild(document.createTextNode(css))
-  }
+  style.appendChild(document.createTextNode(css))
 
   head.appendChild(style)
 }
@@ -29,7 +27,8 @@ function addStyleTag (css) {
 export function loadMarkdown () {
   if (loadingMarkdown) { return {type: 'ignore'} }
   loadingMarkdown = true
-  return (dispatch) => Promise.all([
+  return (dispatch: Dispatch) => Promise.all([
+    // $FlowFixMe
     System.import('marky-markdown'),
     System.import('../markdown-css')
   ]).then(([md, css]) => {
@@ -45,7 +44,12 @@ export function getMarkdown () {
   return markdownCache
 }
 
-export default (state = {showLoginOverlay: false, markdownReady: false}, action) => {
+type State = {
+  showLoginOverlay: boolean,
+  markdownReady: boolean
+}
+
+export default (state: State = {showLoginOverlay: false, markdownReady: false}, action: Action) => {
   switch (action.type) {
     case HIDE_LOGIN_OVERLAY:
       return {

@@ -1,3 +1,5 @@
+/* @flow */
+import { type AphroStyle } from '../../../flow/types'
 import React from 'react'
 import { StyleSheet, css } from 'aphrodite'
 import Upvote from './Upvote'
@@ -12,7 +14,7 @@ const widths = [
   '275px'
 ]
 
-const WaitingIssue = ({styles, index}) => (
+const WaitingIssue = ({styles, index}: {styles?: AphroStyle, index: number}) => (
   <div className={css(_styles.issue, styles)}>
     <div className={css(_styles.votes)}>
       <Upvote />

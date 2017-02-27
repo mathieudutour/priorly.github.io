@@ -1,8 +1,15 @@
-import React from 'react'
+/* @flow */
+import { type AphroStyle } from '../../flow/types'
+import React, {Element} from 'react'
 import theme from '../theme'
 import { StyleSheet, css } from 'aphrodite'
 
-const Card = ({children, styles}) => (
+type propTypes = {
+  children?: Element<any>,
+  styles?: AphroStyle
+}
+
+const Card = ({children, styles}: propTypes) => (
   <div className={css(_styles.card, styles)}>
     {children}
   </div>

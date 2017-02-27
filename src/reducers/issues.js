@@ -1,4 +1,5 @@
 /* @flow */
+import { type Dispatch, type Status, type Action, type IssueType } from '../../flow/types'
 import axios from 'axios'
 import github from './_github'
 import { SHOW_LOGIN_OVERLAY } from './ui'
@@ -10,8 +11,9 @@ export const POST_ISSUE_RESOLVED = 'issues/POST_ISSUE_RESOLVED'
 export const SEARCH_ISSUES_RESOLVED = 'issues/SEARCH_ISSUES_RESOLVED'
 export const CHANGE_FILTER = 'issues/CHANGE_FILTER'
 
-export function postIssue (repo, event) {
+export function postIssue (repo: string, event: SyntheticInputEvent) {
   event.preventDefault()
+  // $FlowFixMe
   const [title, body] = event.currentTarget
   if (!title.value) {
     return {
@@ -24,7 +26,7 @@ export function postIssue (repo, event) {
       type: SHOW_LOGIN_OVERLAY
     }
   }
-  return (dispatch) => {
+  return (dispatch: Dispatch) => {
     return axios(github(`/repos/${repo}/issues`, {
       token: window.localStorage.token,
       method: 'POST',
@@ -46,8 +48,8 @@ export function postIssue (repo, event) {
   }
 }
 
-export function fetchIssues (repo, state) {
-  return (dispatch) => {
+export function fetchIssues (repo: string, state: string) {
+  return (dispatch: Dispatch) => {
     return axios(github(`/repos/${repo}/issues`, {
       accept: 'application/vnd.github.squirrel-girl-preview',
       token: window.localStorage.token,
@@ -64,8 +66,8 @@ export function fetchIssues (repo, state) {
   }
 }
 
-export function searchIssues (repo, query) {
-  return (dispatch) => {
+export function searchIssues (repo: string, query: string) {
+  return (dispatch: Dispatch) => {
     return axios(github(`/search/issues`, {
       accept: 'application/vnd.github.squirrel-girl-preview',
       token: window.localStorage.token,
@@ -82,13 +84,13 @@ export function searchIssues (repo, query) {
   }
 }
 
-export function upvoteIssue (repo, issue) {
+export function upvoteIssue (repo: string, issue: IssueType) {
   if (!window.localStorage.token) {
     return {
       type: SHOW_LOGIN_OVERLAY
     }
   }
-  return (dispatch) => {
+  return (dispatch: Dispatch) => {
     return axios(github(`/repos/${repo}/issues/${issue.number}/reactions`, {
       accept: 'application/vnd.github.squirrel-girl-preview',
       token: window.localStorage.token,
@@ -106,14 +108,20 @@ export function upvoteIssue (repo, issue) {
   }
 }
 
-export function changeFilter (filter) {
+export function changeFilter (filter: string) {
   return {
     type: CHANGE_FILTER,
     filter
   }
 }
 
-export default (state = {status: 'loading', issues: {}, filter: 'top'}, action) => {
+type State = {
+  status: Status,
+  issues: Object,
+  filter: string
+}
+
+export default (state: State = {status: 'loading', issues: {}, filter: 'top'}, action: Action) => {
   switch (action.type) {
     case CHANGE_FILTER:
       return {
@@ -188,7 +196,7 @@ export default (state = {status: 'loading', issues: {}, filter: 'top'}, action) 
   }
 }
 
-function filterAndSort (issues, repoName, filter, sort) {
+function filterAndSort (issues: Object, repoName: string, filter, sort) {
   return Object.keys(issues).reduce((prev, k) => {
     const issue = issues[k]
     if (issue.id.indexOf(repoName) === 0 && filter(issue)) {
@@ -200,35 +208,35 @@ function filterAndSort (issues, repoName, filter, sort) {
 }
 
 export const selectors = {
-  new (state, repoName) {
+  new (state: State, repoName: string) {
     return filterAndSort(state.issues, repoName,
       i => !i.closed_at,
       (a, b) => new Date(b.created_at) - new Date(a.created_at)
     )
   },
 
-  top (state, repoName) {
+  top (state: State, repoName: string) {
     return filterAndSort(state.issues, repoName,
       i => !i.closed_at,
       (a, b) => b.reactions['+1'] - a.reactions['+1']
     )
   },
 
-  closed (state, repoName) {
+  closed (state: State, repoName: string) {
     return filterAndSort(state.issues, repoName,
       i => i.closed_at,
       (a, b) => new Date(b.updated_at) - new Date(a.updated_at)
     )
   },
 
-  search (state, repoName) {
+  search (state: State, repoName: string) {
     return filterAndSort(state.issues, repoName,
       i => i.searched,
       (a, b) => a.relevant - b.relevant
     )
   },
 
-  issue (state, issueId) {
+  issue (state: State, issueId: string) {
     return state.issues[issueId]
   }
 }

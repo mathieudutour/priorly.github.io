@@ -1,3 +1,4 @@
+/* @flow */
 import React from 'react'
 import theme from '../theme'
 import { connect } from 'react-redux'
@@ -8,7 +9,7 @@ import Avatar from './Avatar'
 class User extends React.Component {
   render () {
     if (!this.props.ready) {
-      return false
+      return null
     }
     if (!this.props.user) {
       return (

@@ -1,3 +1,5 @@
+/* @flow */
+
 import React from 'react'
 import theme from '../../theme'
 import debounce from 'lodash.debounce'
@@ -7,7 +9,14 @@ import SearchIcon from '../icons/Search'
 import CloseIcon from '../icons/Close'
 import { searchIssues, changeFilter } from '../../reducers/issues'
 
+type State = {
+  searching: boolean,
+  filter: string
+}
+
 class IssueListHeader extends React.Component {
+  state: State
+  searchIssues: (e: SyntheticInputEvent) => void
   constructor (props) {
     super(props)
     this.state = {

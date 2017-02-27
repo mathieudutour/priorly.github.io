@@ -1,4 +1,5 @@
 /* @flow */
+import { type Dispatch, type Status, type Action, type UserType } from '../../flow/types'
 import axios from 'axios'
 import qs from 'query-string'
 import github from './_github'
@@ -9,7 +10,7 @@ export const LOGOUT = 'user/LOGOUT'
 
 export function fetchToken () {
   if (window.localStorage.token) {
-    return (d) => d(fetchUser())
+    return (d: Dispatch) => d(fetchUser())
   }
   const parsed = qs.parse(window.location.search)
   let code = (parsed || {}).code
@@ -17,7 +18,7 @@ export function fetchToken () {
     code = code[code.length - 1]
   }
   if (code) {
-    return (dispatch) => {
+    return (dispatch: Dispatch) => {
       return axios('https://trel3c8m81.execute-api.eu-west-1.amazonaws.com/dev/authenticate/' + code)
         .then(({data}) => {
           if (data.statusCode === 200) {
@@ -34,7 +35,7 @@ export function fetchToken () {
 }
 
 export function fetchUser () {
-  return (dispatch) => {
+  return (dispatch: Dispatch) => {
     return axios(github(`/user`, { token: window.localStorage.token }))
       .then((user) => {
         return dispatch({
@@ -52,7 +53,12 @@ export function logout () {
   }
 }
 
-export default (state = {status: 'loading', user: null}, action) => {
+type State = {
+  status: Status,
+  user: UserType
+}
+
+export default (state: State = {status: 'loading', user: null}, action: Action) => {
   switch (action.type) {
     case NOT_FETCHING_USER:
       return {
