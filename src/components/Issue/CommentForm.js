@@ -1,20 +1,42 @@
 /* @flow */
 
-import React from 'react'
-import theme from '../../theme'
-import { connect } from 'react-redux'
-import Textarea from 'react-textarea-autosize'
-import { StyleSheet, css } from 'aphrodite'
-import Button from '../Button'
-import { postComment } from '../../reducers/comments'
+import React from 'react';
+import theme from '../../theme';
+import { connect } from 'react-redux';
+import Textarea from 'react-textarea-autosize';
+import { StyleSheet, css } from 'aphrodite';
+import Button from '../Button';
+import { postComment } from '../../reducers/comments';
+import { type AphroStyle, type Dispatch } from '../../../flow/types';
 
-const CreateIssue = ({styles, dispatch, repoName, number}) => (
-  <form className={css(_styles.form, styles)} onSubmit={(e) => dispatch(postComment(repoName, number, e))}>
-    <label className={css(_styles.label)} htmlFor='description'>Comment</label>
-    <Textarea id='description' className={css(_styles.input)} placeholder='Be nice :)' />
-    <Button styles={_styles.submit} type='submit'>Post comment</Button>
+type Props = {
+  styles?: AphroStyle,
+  dispatch: Dispatch,
+  repoName: string,
+  number: string
+};
+
+const CreateIssue = (
+  {
+    styles,
+    dispatch,
+    repoName,
+    number
+  }: Props
+) => (
+  <form
+    className={css(_styles.form, styles)}
+    onSubmit={e => dispatch(postComment(repoName, number, e))}
+  >
+    <label className={css(_styles.label)} htmlFor="description">Comment</label>
+    <Textarea
+      id="description"
+      className={css(_styles.input)}
+      placeholder="Be nice :)"
+    />
+    <Button styles={_styles.submit} type="submit">Post comment</Button>
   </form>
-)
+);
 
 const _styles = StyleSheet.create({
   form: {
@@ -58,6 +80,6 @@ const _styles = StyleSheet.create({
     alignSelf: 'flex-end',
     marginTop: '15px'
   }
-})
+});
 
-export default connect()(CreateIssue)
+export default connect()(CreateIssue);

@@ -1,22 +1,40 @@
 /* @flow */
 
-import React from 'react'
-import theme from '../../theme'
-import { connect } from 'react-redux'
-import Textarea from 'react-textarea-autosize'
-import { StyleSheet, css } from 'aphrodite'
-import Button from '../Button'
-import { postIssue } from '../../reducers/issues'
+import React from 'react';
+import theme from '../../theme';
+import { connect } from 'react-redux';
+import Textarea from 'react-textarea-autosize';
+import { StyleSheet, css } from 'aphrodite';
+import Button from '../Button';
+import { postIssue } from '../../reducers/issues';
+import { type AphroStyle, type Dispatch } from '../../../flow/types';
 
-const CreateIssue = ({styles, dispatch, repoName}) => (
-  <form className={css(_styles.form, styles)} onSubmit={(e) => dispatch(postIssue(repoName, e))}>
-    <label className={css(_styles.label)} htmlFor='title'>Title</label>
-    <input id='title' className={css(_styles.input)} placeholder='Short, descriptive title' />
-    <label className={css(_styles.label)} htmlFor='description'>Details</label>
-    <Textarea id='description' className={css(_styles.input)} placeholder='Any additional details...' />
-    <Button styles={_styles.submit} type='submit'>Create post</Button>
+type Props = {
+  styles?: AphroStyle,
+  dispatch: Dispatch,
+  repoName: string
+};
+
+const CreateIssue = ({ styles, dispatch, repoName }: Props) => (
+  <form
+    className={css(_styles.form, styles)}
+    onSubmit={e => dispatch(postIssue(repoName, e))}
+  >
+    <label className={css(_styles.label)} htmlFor="title">Title</label>
+    <input
+      id="title"
+      className={css(_styles.input)}
+      placeholder="Short, descriptive title"
+    />
+    <label className={css(_styles.label)} htmlFor="description">Details</label>
+    <Textarea
+      id="description"
+      className={css(_styles.input)}
+      placeholder="Any additional details..."
+    />
+    <Button styles={_styles.submit} type="submit">Create post</Button>
   </form>
-)
+);
 
 const _styles = StyleSheet.create({
   form: {
@@ -60,6 +78,6 @@ const _styles = StyleSheet.create({
     alignSelf: 'flex-end',
     marginTop: '15px'
   }
-})
+});
 
-export default connect()(CreateIssue)
+export default connect()(CreateIssue);

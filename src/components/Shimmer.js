@@ -1,10 +1,8 @@
 /* @flow */
-import React from 'react'
-import { StyleSheet, css } from 'aphrodite'
+import React from 'react';
+import { StyleSheet, css } from 'aphrodite';
 
-const Shimmer = () => (
-  <div className={css(styles.shimmer)} />
-)
+const Shimmer = () => <div className={css(styles.shimmer)} />;
 
 const placeHolderShimmer = {
   '0%': {
@@ -13,7 +11,7 @@ const placeHolderShimmer = {
   '100%': {
     backgroundPosition: '460px 0'
   }
-}
+};
 
 const styles = StyleSheet.create({
   shimmer: {
@@ -27,6 +25,6 @@ const styles = StyleSheet.create({
     width: '920px',
     height: '76px'
   }
-})
+});
 
-export default Shimmer
+export default Shimmer;

@@ -1,0 +1,16 @@
+---
+root: true
+parser: babel-eslint
+extends:
+  - standard
+  - plugin:react/recommended
+  - prettier
+  - prettier/react
+plugins:
+  - prettier
+env:
+    browser: true
+    node: true
+globals:
+  SyntheticMouseEvent: false
+  SyntheticInputEvent: false

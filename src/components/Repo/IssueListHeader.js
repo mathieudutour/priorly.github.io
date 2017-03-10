@@ -1,72 +1,91 @@
 /* @flow */
 
-import React from 'react'
-import theme from '../../theme'
-import debounce from 'lodash.debounce'
-import { connect } from 'react-redux'
-import { StyleSheet, css } from 'aphrodite'
-import SearchIcon from '../icons/Search'
-import CloseIcon from '../icons/Close'
-import { searchIssues, changeFilter } from '../../reducers/issues'
+import React from 'react';
+import theme from '../../theme';
+import debounce from 'lodash.debounce';
+import { connect } from 'react-redux';
+import { StyleSheet, css } from 'aphrodite';
+import SearchIcon from '../icons/Search';
+import CloseIcon from '../icons/Close';
+import { searchIssues, changeFilter } from '../../reducers/issues';
+import { type AphroStyle, type Dispatch } from '../../../flow/types';
 
 type State = {
   searching: boolean,
   filter: string
-}
+};
+type Props = {
+  dispatch: Dispatch,
+  repoName: string,
+  styles?: AphroStyle
+};
 
 class IssueListHeader extends React.Component {
-  state: State
-  searchIssues: (e: SyntheticInputEvent) => void
-  constructor (props) {
-    super(props)
+  state: State;
+  props: Props;
+  searchIssues: (e: SyntheticInputEvent) => void;
+  constructor(props) {
+    super(props);
     this.state = {
       searching: false,
       filter: 'top'
-    }
-    this.searchIssues = debounce((e) => props.dispatch(searchIssues(props.repoName, e.target.value)), 100)
+    };
+    this.searchIssues = debounce(
+      e => props.dispatch(searchIssues(props.repoName, e.target.value)),
+      100
+    );
   }
 
-  componentWillReceiveProps (nextProps) {
+  componentWillReceiveProps(nextProps) {
     if (nextProps.repoName !== this.props.repoName) {
-      this.searchIssues = debounce((e) => nextProps.dispatch(searchIssues(nextProps.repoName, e.target.value)), 100)
+      this.searchIssues = debounce(
+        e =>
+          nextProps.dispatch(searchIssues(nextProps.repoName, e.target.value)),
+        100
+      );
     }
   }
 
-  render () {
+  render() {
     if (this.state.searching) {
       return (
         <div className={css(_styles.header, this.props.styles)}>
           <SearchIcon styles={_styles.menu} />
           <input
             className={css(_styles.input)}
-            placeholder='Search...'
+            placeholder="Search..."
             autoFocus
-            onChange={(e) => {
-              e.persist()
-              this.searchIssues(e)
-            }} />
-          <div className={css(_styles.rightContainer)}
+            onChange={e => {
+              e.persist();
+              this.searchIssues(e);
+            }}
+          />
+          <div
+            className={css(_styles.rightContainer)}
             onClick={() => {
-              this.setState({searching: false})
-              this.props.dispatch(changeFilter(this.state.filter))
-            }}>
+              this.setState({ searching: false });
+              this.props.dispatch(changeFilter(this.state.filter));
+            }}
+          >
             <CloseIcon />
           </div>
         </div>
-      )
+      );
     }
     return (
       <div className={css(_styles.header, this.props.styles)}>
         <div className={css(_styles.menu)}>Showing Top posts</div>
-        <div className={css(_styles.rightContainer)}
+        <div
+          className={css(_styles.rightContainer)}
           onClick={() => {
-            this.setState({searching: true})
-            this.props.dispatch(changeFilter('search'))
-          }}>
+            this.setState({ searching: true });
+            this.props.dispatch(changeFilter('search'));
+          }}
+        >
           <SearchIcon />
         </div>
       </div>
-    )
+    );
   }
 }
 
@@ -96,6 +115,6 @@ const _styles = StyleSheet.create({
     fontSize: '17px',
     padding: '15px 0'
   }
-})
+});
 
-export default connect()(IssueListHeader)
+export default connect()(IssueListHeader);

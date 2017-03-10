@@ -1,12 +1,12 @@
 /* @flow */
 
-import React from 'react'
-import theme from '../../theme'
-import { StyleSheet, css } from 'aphrodite'
+import React from 'react';
+import theme from '../../theme';
+import { StyleSheet, css } from 'aphrodite';
 
-const Upvote = ({upvoted}: {upvoted?: boolean}) => (
+const Upvote = ({ upvoted }: { upvoted?: boolean }) => (
   <div className={css(_styles.upvote, upvoted && _styles.upvoted)} />
-)
+);
 
 const _styles = StyleSheet.create({
   upvote: {
@@ -22,6 +22,6 @@ const _styles = StyleSheet.create({
   upvoted: {
     borderBottom: '9px solid ' + theme.primary
   }
-})
+});
 
-export default Upvote
+export default Upvote;

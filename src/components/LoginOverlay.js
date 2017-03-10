@@ -1,23 +1,33 @@
 /* @flow */
-import React from 'react'
-import { connect } from 'react-redux'
-import { StyleSheet, css } from 'aphrodite'
-import Button from './Button'
-import Card from './Card'
-import { hideLoginOverlay } from '../reducers/ui'
+import React from 'react';
+import { connect } from 'react-redux';
+import { StyleSheet, css } from 'aphrodite';
+import Button from './Button';
+import Card from './Card';
+import { hideLoginOverlay } from '../reducers/ui';
+import { type Dispatch } from '../../flow/types';
 
-const LoginOverlay = ({show, dispatch}) => (
+const LoginOverlay = (
+  { show, dispatch }: { show: boolean, dispatch: Dispatch }
+) => (
   <div>
-    <div className={css(styles.overlay, show && styles.overlayVisible)} onClick={() => dispatch(hideLoginOverlay())} />
+    <div
+      className={css(styles.overlay, show && styles.overlayVisible)}
+      onClick={() => dispatch(hideLoginOverlay())}
+    />
     <Card styles={[styles.card, show && styles.cardVisible]}>
       <p>You need to login to do that</p>
-      <Button styles={styles.login}
-        onClick={() => { window.location = 'https://github.com/login/oauth/authorize?client_id=bb0bd794e1974d1b64ab&scope=public_repo' }}>
+      <Button
+        styles={styles.login}
+        onClick={() => {
+          window.location = 'https://github.com/login/oauth/authorize?client_id=bb0bd794e1974d1b64ab&scope=public_repo';
+        }}
+      >
         Login
       </Button>
     </Card>
   </div>
-)
+);
 
 const styles = StyleSheet.create({
   overlay: {
@@ -61,10 +71,10 @@ const styles = StyleSheet.create({
     transitionDelay: '0.1s',
     pointerEvents: 'all'
   }
-})
+});
 
-export default connect((state) => {
+export default connect(state => {
   return {
     show: state.ui.showLoginOverlay
-  }
-})(LoginOverlay)
+  };
+})(LoginOverlay);

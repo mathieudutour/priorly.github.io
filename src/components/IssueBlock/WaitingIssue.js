@@ -1,35 +1,33 @@
 /* @flow */
-import { type AphroStyle } from '../../../flow/types'
-import React from 'react'
-import { StyleSheet, css } from 'aphrodite'
-import Upvote from './Upvote'
-import CommentIcon from '../icons/Comment'
-import Shimmer from '../Shimmer'
+import { type AphroStyle } from '../../../flow/types';
+import React from 'react';
+import { StyleSheet, css } from 'aphrodite';
+import Upvote from './Upvote';
+import CommentIcon from '../icons/Comment';
+import Shimmer from '../Shimmer';
 
-const widths = [
-  '150px',
-  '204px',
-  '250px',
-  '194px',
-  '275px'
-]
+const widths = ['150px', '204px', '250px', '194px', '275px'];
 
-const WaitingIssue = ({styles, index}: {styles?: AphroStyle, index: number}) => (
+const WaitingIssue = (
+  { styles, index }: { styles?: AphroStyle, index: number }
+) => (
   <div className={css(_styles.issue, styles)}>
     <div className={css(_styles.votes)}>
       <Upvote />
       <span className={css(_styles.upvotesNumber)}><Shimmer /></span>
     </div>
     <div className={css(_styles.body)}>
-      <div className={css(_styles.body)}
-        style={{maxWidth: widths[index % 5]}}>
+      <div
+        className={css(_styles.body)}
+        style={{ maxWidth: widths[index % 5] }}
+      >
         <Shimmer />
       </div>
     </div>
     <CommentIcon />
     <div className={css(_styles.comments)}><Shimmer /></div>
   </div>
-)
+);
 
 const _styles = StyleSheet.create({
   issue: {
@@ -70,6 +68,6 @@ const _styles = StyleSheet.create({
     width: '20px',
     overflow: 'hidden'
   }
-})
+});
 
-export default WaitingIssue
+export default WaitingIssue;

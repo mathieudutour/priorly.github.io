@@ -1,9 +1,9 @@
 /* @flow */
 
-import React from 'react'
-import theme from '../../theme'
-import { StyleSheet, css } from 'aphrodite'
-import BellIcon from '../icons/Bell'
+import React from 'react';
+import theme from '../../theme';
+import { StyleSheet, css } from 'aphrodite';
+import BellIcon from '../icons/Bell';
 
 const IssueEmptyState = () => (
   <div className={css(styles.container)}>
@@ -11,7 +11,7 @@ const IssueEmptyState = () => (
     <h1>No post yet.</h1>
     <h2>Be the first to add one!</h2>
   </div>
-)
+);
 
 const styles = StyleSheet.create({
   container: {
@@ -25,6 +25,6 @@ const styles = StyleSheet.create({
     minWidth: '80px',
     fill: theme.light
   }
-})
+});
 
-export default IssueEmptyState
+export default IssueEmptyState;

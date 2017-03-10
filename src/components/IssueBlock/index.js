@@ -1,56 +1,85 @@
 /* @flow */
 
-import React from 'react'
-import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
-import { StyleSheet, css } from 'aphrodite'
-import Upvote from './Upvote'
-import WaitingIssue from './WaitingIssue'
-import CommentIcon from '../icons/Comment'
-import { upvoteIssue } from '../../reducers/issues'
+import React from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import { StyleSheet, css } from 'aphrodite';
+import Upvote from './Upvote';
+import WaitingIssue from './WaitingIssue';
+import CommentIcon from '../icons/Comment';
+import { upvoteIssue } from '../../reducers/issues';
+import {
+  type AphroStyle,
+  type IssueType,
+  type Dispatch
+} from '../../../flow/types';
 
-const Votes = ({reactions, onVote}: {reactions: Object, onVote: (e: SyntheticMouseEvent) => void}) => (
+const Votes = (
+  {
+    reactions,
+    onVote
+  }: { reactions: Object, onVote: (e: SyntheticMouseEvent) => void }
+) => (
   <div className={css(_styles.votes)} onClick={onVote}>
     <Upvote upvoted={(reactions || {}).upvoted} />
-    <span className={css(_styles.upvotesNumber)}>{(reactions || {})['+1']}</span>
+    <span className={css(_styles.upvotesNumber)}>
+      {(reactions || {})['+1']}
+    </span>
   </div>
-)
+);
 
-const KANBAN_LABEL = /^\d+ - /
+const KANBAN_LABEL = /^\d+ - /;
 
-function findLabel (issue) {
-  return (issue.labels || []).find(l => KANBAN_LABEL.test(l.name))
+function findLabel(issue) {
+  return (issue.labels || []).find(l => KANBAN_LABEL.test(l.name));
 }
 
-function getLabel (issue) {
-  return findLabel(issue).name.replace(/^\d+ - /, '')
+function getLabel(issue) {
+  return findLabel(issue).name.replace(/^\d+ - /, '');
 }
 
-const Issue = ({issue, styles, dispatch, repoName, showComment, waiting, index}) => {
+type Props = {
+  issue: IssueType,
+  styles?: AphroStyle,
+  dispatch: Dispatch,
+  repoName: string,
+  showComment: boolean,
+  waiting: boolean,
+  index: number
+};
+
+const Issue = (
+  { issue, styles, dispatch, repoName, showComment, waiting, index }: Props
+) => {
   if (waiting) {
-    return <WaitingIssue index={index} />
+    return <WaitingIssue index={index} />;
   }
   return (
     <div className={css(_styles.issue, styles)}>
       <Votes
         reactions={issue.reactions}
-        onVote={() => dispatch(upvoteIssue(repoName, issue))} />
+        onVote={() => dispatch(upvoteIssue(repoName, issue))}
+      />
       <Link className={css(_styles.body)} to={`/${repoName}/${issue.number}`}>
         <div>{issue.title}</div>
         {issue.closed_at &&
-          <div className={css(_styles.label)} style={{color: '#3ac600'}}>
+          <div className={css(_styles.label)} style={{ color: '#3ac600' }}>
             Fixed
           </div>}
-        {!issue.closed_at && findLabel(issue) &&
-          <div className={css(_styles.label)} style={{color: '#' + findLabel(issue).color}}>
+        {!issue.closed_at &&
+          findLabel(issue) &&
+          <div
+            className={css(_styles.label)}
+            style={{ color: '#' + findLabel(issue).color }}
+          >
             {getLabel(issue)}
           </div>}
       </Link>
       {showComment && <CommentIcon />}
       {showComment && <div>{issue.comments}</div>}
     </div>
-  )
-}
+  );
+};
 
 const _styles = StyleSheet.create({
   issue: {
@@ -99,6 +128,6 @@ const _styles = StyleSheet.create({
     textTransform: 'uppercase',
     margin: '4px 0 0'
   }
-})
+});
 
-export default connect()(Issue)
+export default connect()(Issue);

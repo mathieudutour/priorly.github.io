@@ -9,4 +9,4 @@ export default {
   darkest: '#666',
   grey: '#bbb',
   white: '#fff'
-}
+};

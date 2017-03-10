@@ -1,19 +1,19 @@
 /* @flow */
-import { type AphroStyle } from '../../flow/types'
-import React, {Element} from 'react'
-import theme from '../theme'
-import { StyleSheet, css } from 'aphrodite'
+import { type AphroStyle } from '../../flow/types';
+import React, { Element } from 'react';
+import theme from '../theme';
+import { StyleSheet, css } from 'aphrodite';
 
 type propTypes = {
   children?: Element<any>,
   styles?: AphroStyle
-}
+};
 
-const Button = ({children, styles, ...rest}: propTypes) => (
+const Button = ({ children, styles, ...rest }: propTypes) => (
   <button className={css(_styles.button, styles)} {...rest}>
     {children}
   </button>
-)
+);
 
 const _styles = StyleSheet.create({
   button: {
@@ -33,6 +33,6 @@ const _styles = StyleSheet.create({
       opacity: '.8'
     }
   }
-})
+});
 
-export default Button
+export default Button;

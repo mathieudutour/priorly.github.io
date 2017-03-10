@@ -1,16 +1,16 @@
 /* @flow */
-import React from 'react'
-import theme from '../theme'
-import { StyleSheet, css } from 'aphrodite'
-import { Link } from 'react-router-dom'
-import Container from './Container'
-import User from './User'
+import React from 'react';
+import theme from '../theme';
+import { StyleSheet, css } from 'aphrodite';
+import { Link } from 'react-router-dom';
+import Container from './Container';
+import User from './User';
 
-const TopBar = ({repoName}: {repoName: string}) => (
+const TopBar = ({ repoName }: { repoName: string }) => (
   <nav className={css(styles.topBar)}>
     <Container styles={styles.container}>
       <div>
-        <Link to='/about' className={css(styles.link, styles.logo)}>
+        <Link to="/about" className={css(styles.link, styles.logo)}>
           Prior.ly
         </Link>
         <Link to={'/' + repoName} className={css(styles.link, styles.repo)}>
@@ -20,7 +20,7 @@ const TopBar = ({repoName}: {repoName: string}) => (
       <User />
     </Container>
   </nav>
-)
+);
 
 const styles = StyleSheet.create({
   topBar: {
@@ -58,6 +58,6 @@ const styles = StyleSheet.create({
   repo: {
     color: theme.darkest
   }
-})
+});
 
-export default TopBar
+export default TopBar;

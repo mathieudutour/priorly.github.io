@@ -1,12 +1,12 @@
 /* @flow */
-import { type UserType } from '../../../flow/types'
-import React from 'react'
-import theme from '../../theme'
-import { StyleSheet, css } from 'aphrodite'
-import Card from '../Card'
-import CreateIssueForm from './CreateIssueForm'
-import Avatar from '../Avatar'
-import Shimmer from '../Shimmer'
+import { type UserType } from '../../../flow/types';
+import React from 'react';
+import theme from '../../theme';
+import { StyleSheet, css } from 'aphrodite';
+import Card from '../Card';
+import CreateIssueForm from './CreateIssueForm';
+import Avatar from '../Avatar';
+import Shimmer from '../Shimmer';
 
 type propTypes = {
   ready: boolean,
@@ -16,26 +16,28 @@ type propTypes = {
     collaborators: ?Array<UserType>,
     owner: UserType
   },
-  repoName: string,
-}
+  repoName: string
+};
 
-const RepoCard = ({ready, repo, repoName}: propTypes) => (
+const RepoCard = ({ ready, repo, repoName }: propTypes) => (
   <Card styles={styles.sidebar}>
     <div className={css(styles.faces)}>
-      {ready && (repo.collaborators || [repo.owner]).map(c =>
-        <Avatar user={c} key={c.id} />
-      )}
+      {ready &&
+        (repo.collaborators || [repo.owner])
+          .map(c => <Avatar user={c} key={c.id} />)}
       {!ready && <Avatar loading />}
     </div>
     <div>
       {ready && <h1 className={css(styles.repoName)}>{repo.full_name}</h1>}
-      {ready && <p className={css(styles.repoDescription)}>{repo.description}</p>}
+      {ready &&
+        <p className={css(styles.repoDescription)}>{repo.description}</p>}
       {!ready && <div className={css(styles.nameWaiting)}><Shimmer /></div>}
-      {!ready && <div className={css(styles.descriptionWaiting)}><Shimmer /></div>}
+      {!ready &&
+        <div className={css(styles.descriptionWaiting)}><Shimmer /></div>}
     </div>
     <CreateIssueForm repoName={repoName} />
   </Card>
-)
+);
 
 const styles = StyleSheet.create({
   sidebar: {
@@ -84,6 +86,6 @@ const styles = StyleSheet.create({
     margin: '16px auto',
     overflow: 'hidden'
   }
-})
+});
 
-export default RepoCard
+export default RepoCard;

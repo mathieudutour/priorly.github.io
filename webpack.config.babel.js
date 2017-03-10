@@ -1,19 +1,32 @@
-const path = require('path')
-const webpack = require('webpack')
-const HtmlWebpackPlugin = require('html-webpack-plugin')
-const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin')
-const ManifestPlugin = require('webpack-assets-manifest')
-const OfflinePlugin = require('offline-plugin')
-const CompressionPlugin = require('compression-webpack-plugin')
-const FaviconsWebpackPlugin = require('favicons-webpack-plugin')
-const AppShellRenderer = require('./app-shell-renderer.js')
+const path = require('path');
+const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
+const ManifestPlugin = require('webpack-assets-manifest');
+const OfflinePlugin = require('offline-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
+const FaviconsWebpackPlugin = require('favicons-webpack-plugin');
+const AppShellRenderer = require('./app-shell-renderer.js');
 
-const PROD = process.env.NODE_ENV === 'production'
+const PROD = process.env.NODE_ENV === 'production';
 
 module.exports = {
   entry: {
     app: './src/index.js',
-    vendor: ['react', 'react-router-dom', 'react-dom', 'redux', 'axios', 'react-redux', 'redux-thunk', 'uuid', 'query-string', 'aphrodite', 'lodash.debounce', 'react-textarea-autosize']
+    vendor: [
+      'react',
+      'react-router-dom',
+      'react-dom',
+      'redux',
+      'axios',
+      'react-redux',
+      'redux-thunk',
+      'uuid',
+      'query-string',
+      'aphrodite',
+      'lodash.debounce',
+      'react-textarea-autosize'
+    ]
   },
   output: {
     path: path.resolve(__dirname, './build'),
@@ -43,7 +56,9 @@ module.exports = {
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
-      'process.env.GOOGLE_ANALYTICS_UA': JSON.stringify(process.env.GOOGLE_ANALYTICS_UA)
+      'process.env.GOOGLE_ANALYTICS_UA': JSON.stringify(
+        process.env.GOOGLE_ANALYTICS_UA
+      )
     }),
     new FaviconsWebpackPlugin({
       logo: './src/logo.png',
@@ -73,40 +88,44 @@ module.exports = {
       output: 'manifest.json',
       merge: true
     })
-  ].concat(PROD ? [
-    new OfflinePlugin({
-      relativePaths: false,
-      publicPath: '/',
-      updateStrategy: 'all',
-      safeToUseOptionalCaches: true,
-      caches: 'all',
-      ServiceWorker: {
-        navigateFallbackURL: '/',
-        events: true
-      },
-      AppCache: false
-    }),
-    new webpack.optimize.UglifyJsPlugin({
-      output: {
-        comments: 0
-      },
-      compress: {
-        unused: 1,
-        warnings: 0
-      }
-    }),
-    new CompressionPlugin({
-      asset: '[path].gz[query]',
-      algorithm: 'gzip',
-      test: /\.js$|\.css$|\.html$/,
-      threshold: 10240,
-      minRatio: 0.8
-    })
-  ] : []),
+  ].concat(
+    PROD
+      ? [
+          new OfflinePlugin({
+            relativePaths: false,
+            publicPath: '/',
+            updateStrategy: 'all',
+            safeToUseOptionalCaches: true,
+            caches: 'all',
+            ServiceWorker: {
+              navigateFallbackURL: '/',
+              events: true
+            },
+            AppCache: false
+          }),
+          new webpack.optimize.UglifyJsPlugin({
+            output: {
+              comments: 0
+            },
+            compress: {
+              unused: 1,
+              warnings: 0
+            }
+          }),
+          new CompressionPlugin({
+            asset: '[path].gz[query]',
+            algorithm: 'gzip',
+            test: /\.js$|\.css$|\.html$/,
+            threshold: 10240,
+            minRatio: 0.8
+          })
+        ]
+      : []
+  ),
   devServer: {
     historyApiFallback: {
       verbose: true,
       disableDotRule: true
     }
   }
-}
+};

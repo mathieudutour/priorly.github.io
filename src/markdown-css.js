@@ -680,6 +680,6 @@ const css = `
 .markdown-body hr {
   border-bottom-color: #eee;
 }
-`
+`;
 
-export default css
+export default css;
