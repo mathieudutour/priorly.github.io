@@ -7,14 +7,20 @@ export const FETCH_REPO_RESOLVED = 'repo/FETCH_REPO_RESOLVED';
 
 export function fetchRepo(repo: string) {
   return (dispatch: Dispatch) => {
-    return axios(
-      github(`/repos/${repo}`, {
-        token: window.localStorage.token
-      })
-    ).then(repo => {
+    return Promise.all([
+      axios(
+        github(`/repos/${repo}`, {
+          token: window.localStorage.token
+        })
+      ),
+      axios(
+        `https://raw.githubusercontent.com/${repo}/master/.priorlyrc`
+      ).catch(() => ({ data: null }))
+    ]).then(([repo, config]) => {
       return dispatch({
         type: FETCH_REPO_RESOLVED,
-        repo: repo.data
+        repo: repo.data,
+        config: config.data
       });
     });
   };
@@ -34,7 +40,8 @@ export default (
       return {
         ...state,
         status: 'ready',
-        repo: action.repo
+        repo: action.repo,
+        config: action.config || {}
       };
     default:
       return state;
