@@ -25,4 +25,54 @@ export type CommentType = {
   created_at: Date
 };
 
+export type RepoType = {
+  description: string,
+  full_name: string,
+  collaborators: ?Array<UserType>,
+  owner: UserType
+};
+
+export type LabelType = {
+  id: string,
+  url: string,
+  name: string,
+  color: string,
+  default: boolean
+};
+
 export type Dispatch = (action: Action | Promise<Action>) => Promise;
+
+export type IssuesState = {
+  status: Status,
+  issues: { [id: string]: IssueType },
+  filter: string
+};
+
+export type RepoState = {
+  status: Status,
+  repo: ?RepoType,
+  labels: Array<LabelType>
+};
+
+export type UserState = {
+  status: Status,
+  user: UserType
+};
+
+export type UIState = {
+  showLoginOverlay: boolean,
+  markdownReady: boolean
+};
+
+export type CommentsState = {
+  status: Status,
+  comments: { [id: string]: CommentType }
+};
+
+export type StateType = {
+  issues: IssuesState,
+  repo: RepoState,
+  user: UserState,
+  ui: UIState,
+  comments: CommentsState
+};

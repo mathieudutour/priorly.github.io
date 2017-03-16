@@ -1,5 +1,9 @@
 /* @flow */
-import { type Dispatch, type Status, type Action } from '../../flow/types';
+import {
+  type Dispatch,
+  type Action,
+  type CommentsState
+} from '../../flow/types';
 import axios from 'axios';
 import github from './_github';
 import { SHOW_LOGIN_OVERLAY } from './ui';
@@ -63,13 +67,8 @@ export function fetchComments(repo: string, number: string) {
   };
 }
 
-type State = {
-  status: Status,
-  comments: Object
-};
-
 export default (
-  state: State = { status: 'loading', comments: {} },
+  state: CommentsState = { status: 'loading', comments: {} },
   action: Action
 ) => {
   switch (action.type) {
@@ -95,6 +94,6 @@ export default (
   }
 };
 
-export function selectors(state: State, issueId: string) {
+export function selectors(state: CommentsState, issueId: string) {
   return state.comments[issueId];
 }

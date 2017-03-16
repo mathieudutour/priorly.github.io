@@ -7,3 +7,5 @@ export function findLabel(issue) {
 export function getLabel(issue) {
   return findLabel(issue).name.replace(/^\d+ - /, '');
 }
+
+export function getLabelsSet(issues) {}

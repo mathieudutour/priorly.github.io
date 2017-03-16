@@ -1,9 +1,9 @@
 /* @flow */
 import {
   type Dispatch,
-  type Status,
   type Action,
-  type IssueType
+  type IssueType,
+  type IssuesState
 } from '../../flow/types';
 import axios from 'axios';
 import github from './_github';
@@ -128,14 +128,8 @@ export function changeFilter(filter: string) {
   };
 }
 
-type State = {
-  status: Status,
-  issues: Object,
-  filter: string
-};
-
 export default (
-  state: State = { status: 'loading', issues: {}, filter: 'top' },
+  state: IssuesState = { status: 'loading', issues: {}, filter: 'top' },
   action: Action
 ) => {
   switch (action.type) {
@@ -222,7 +216,12 @@ export default (
   }
 };
 
-function filterAndSort(issues: Object, repoName: string, filter, sort) {
+function filterAndSort(
+  issues: { [id: string]: IssueType },
+  repoName: string,
+  filter,
+  sort
+): Array<IssueType> {
   return Object.keys(issues)
     .reduce(
       (prev, k) => {
@@ -238,7 +237,7 @@ function filterAndSort(issues: Object, repoName: string, filter, sort) {
 }
 
 export const selectors = {
-  new(state: State, repoName: string) {
+  new(state: IssuesState, repoName: string): Array<IssueType> {
     return filterAndSort(
       state.issues,
       repoName,
@@ -247,7 +246,7 @@ export const selectors = {
     );
   },
 
-  top(state: State, repoName: string) {
+  top(state: IssuesState, repoName: string): Array<IssueType> {
     return filterAndSort(
       state.issues,
       repoName,
@@ -256,7 +255,7 @@ export const selectors = {
     );
   },
 
-  closed(state: State, repoName: string) {
+  closed(state: IssuesState, repoName: string): Array<IssueType> {
     return filterAndSort(
       state.issues,
       repoName,
@@ -265,7 +264,7 @@ export const selectors = {
     );
   },
 
-  search(state: State, repoName: string) {
+  search(state: IssuesState, repoName: string): Array<IssueType> {
     return filterAndSort(
       state.issues,
       repoName,
@@ -274,7 +273,7 @@ export const selectors = {
     );
   },
 
-  issue(state: State, issueId: string) {
+  issue(state: IssuesState, issueId: string): IssueType {
     return state.issues[issueId];
   }
 };

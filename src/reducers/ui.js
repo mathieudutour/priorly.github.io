@@ -1,5 +1,5 @@
 /* @flow */
-import { type Dispatch, type Action } from '../../flow/types';
+import { type Dispatch, type Action, type UIState } from '../../flow/types';
 
 export const HIDE_LOGIN_OVERLAY = 'ui/HIDE_LOGIN_OVERLAY';
 export const SHOW_LOGIN_OVERLAY = 'ui/SHOW_LOGIN_OVERLAY';
@@ -47,13 +47,8 @@ export function getMarkdown() {
   return markdownCache;
 }
 
-type State = {
-  showLoginOverlay: boolean,
-  markdownReady: boolean
-};
-
 export default (
-  state: State = { showLoginOverlay: false, markdownReady: false },
+  state: UIState = { showLoginOverlay: false, markdownReady: false },
   action: Action
 ) => {
   switch (action.type) {

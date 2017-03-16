@@ -6,10 +6,12 @@ import theme from '../../theme';
 import { StyleSheet, css } from 'aphrodite';
 import Avatar from '../Avatar';
 import { loadMarkdown, getMarkdown } from '../../reducers/ui';
+
 import {
   type AphroStyle,
   type CommentType,
-  type Dispatch
+  type Dispatch,
+  type StateType
 } from '../../../flow/types';
 
 const MONTHS = [
@@ -31,12 +33,17 @@ function displayDate(date) {
   return `${MONTHS[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
 }
 
-type Props = {
-  markdownReady: boolean,
-  dispatch: Dispatch,
-  styles?: AphroStyle,
-  comment: CommentType
+type Connect = {
+  markdownReady: boolean
 };
+
+type Props =
+  & {
+    dispatch: Dispatch,
+    styles?: AphroStyle,
+    comment: CommentType
+  }
+  & Connect;
 
 class Comment extends React.Component {
   props: Props;
@@ -113,7 +120,7 @@ const _styles = StyleSheet.create({
   }
 });
 
-export default connect(state => {
+export default connect((state: StateType): Connect => {
   return {
     markdownReady: state.ui.markdownReady
   };

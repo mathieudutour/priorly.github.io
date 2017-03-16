@@ -6,21 +6,28 @@ import TopBar from '../TopBar';
 import ListView from './ListView';
 import { fetchIssues, selectors } from '../../reducers/issues';
 import { fetchRepo } from '../../reducers/repo';
+
 import {
   type IssueType,
   type RepoType,
-  type Dispatch
+  type Dispatch,
+  type StateType
 } from '../../../flow/types';
 
-type Props = {
-  dispatch: Dispatch,
+type Connect = {
   repoName: string,
   userReady: boolean,
   repoReady: boolean,
   issueReady: boolean,
-  issues: [IssueType],
+  issues: Array<IssueType>,
   repo: RepoType
 };
+
+type Props =
+  & {
+    dispatch: Dispatch
+  }
+  & Connect;
 
 class Repo extends React.Component {
   props: Props;
@@ -60,13 +67,14 @@ function getRepoName(props) {
   return props.match.params.owner + '/' + props.match.params.repo;
 }
 
-export default connect((state, ownProps) => {
+export default connect((state: StateType, ownProps): Connect => {
   const repoName = getRepoName(ownProps);
   return {
     repoName,
     userReady: state.user.status === 'ready',
     repoReady: state.repo.status === 'ready',
     repo: state.repo.repo,
+    labels: state.repo.labels,
     issueReady: state.issues.status === 'ready',
     issues: selectors[state.issues.filter](state.issues, repoName)
   };

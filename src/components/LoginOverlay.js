@@ -5,11 +5,20 @@ import { StyleSheet, css } from 'aphrodite';
 import Button from './Button';
 import Card from './Card';
 import { hideLoginOverlay } from '../reducers/ui';
-import { type Dispatch } from '../../flow/types';
 
-const LoginOverlay = (
-  { show, dispatch }: { show: boolean, dispatch: Dispatch }
-) => (
+import { type Dispatch, type StateType } from '../../flow/types';
+
+type Connect = {
+  show: boolean
+};
+
+type Props =
+  & {
+    dispatch: Dispatch
+  }
+  & Connect;
+
+const LoginOverlay = ({ show, dispatch }: Props) => (
   <div>
     <div
       className={css(styles.overlay, show && styles.overlayVisible)}
@@ -73,7 +82,7 @@ const styles = StyleSheet.create({
   }
 });
 
-export default connect(state => {
+export default connect((state: StateType): Connect => {
   return {
     show: state.ui.showLoginOverlay
   };

@@ -1,5 +1,5 @@
 /* @flow */
-import { type UserType } from '../../../flow/types';
+import { type RepoType } from '../../../flow/types';
 import React from 'react';
 import theme from '../../theme';
 import { StyleSheet, css } from 'aphrodite';
@@ -10,12 +10,7 @@ import Shimmer from '../Shimmer';
 
 type propTypes = {
   ready: boolean,
-  repo: {
-    description: string,
-    full_name: string,
-    collaborators: ?Array<UserType>,
-    owner: UserType
-  },
+  repo: RepoType,
   repoName: string
 };
 

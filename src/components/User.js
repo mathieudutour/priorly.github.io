@@ -5,12 +5,15 @@ import { connect } from 'react-redux';
 import { StyleSheet } from 'aphrodite';
 import Button from './Button';
 import Avatar from './Avatar';
-import { type UserType } from '../../flow/types';
 
-type Props = {
+import { type UserType, type StateType } from '../../flow/types';
+
+type Connect = {
   ready: boolean,
   user: UserType
 };
+
+type Props = Connect;
 
 class User extends React.Component {
   props: Props;
@@ -43,9 +46,10 @@ const styles = StyleSheet.create({
   }
 });
 
-export default connect(state => {
+export default connect((state: StateType): Connect => {
   return {
     ready: state.user.status === 'ready',
-    user: state.user.user
+    user: state.user.user,
+    foo: state.user.adawd.awd
   };
 })(User);

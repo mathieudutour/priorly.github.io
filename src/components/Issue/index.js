@@ -18,11 +18,13 @@ import {
   fetchComments,
   selectors as commentsSelectors
 } from '../../reducers/comments';
+
 import {
   type AphroStyle,
   type IssueType,
   type CommentType,
-  type Dispatch
+  type Dispatch,
+  type StateType
 } from '../../../flow/types';
 
 function getRepoName(props) {
@@ -36,20 +38,29 @@ function fetchInfo(props) {
   }
 }
 
-type Props = {
+type Match = {
+  params: {
+    number: string,
+    owner: string,
+    repo: string
+  }
+};
+
+type Connect = {
   userReady: boolean,
-  dispatch: Dispatch,
-  styles?: AphroStyle,
   issueId: string,
   repoName: string,
   issue: IssueType,
-  match: {
-    params: {
-      number: string
-    }
-  },
   comments: [CommentType]
 };
+
+type Props =
+  & {
+    dispatch: Dispatch,
+    styles?: AphroStyle,
+    match: Match
+  }
+  & Connect;
 
 class Issue extends React.Component {
   props: Props;
@@ -118,16 +129,16 @@ const styles = StyleSheet.create({
   }
 });
 
-export default connect((state, ownProps) => {
+export default connect((state: StateType, ownProps: {
+  match: Match
+}): Connect => {
   const repoName = getRepoName(ownProps);
   const issueId = `${repoName}/${ownProps.match.params.number}`;
   return {
     repoName,
     userReady: state.user.status === 'ready',
-    issueReady: state.issues.status === 'ready',
     issueId,
     issue: issueSelectors.issue(state.issues, issueId),
-    commentsReady: state.comments.status === 'ready',
     comments: commentsSelectors(state.comments, issueId)
   };
 })(Issue);

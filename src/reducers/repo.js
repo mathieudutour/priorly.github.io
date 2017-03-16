@@ -1,5 +1,5 @@
 /* @flow */
-import { type Dispatch, type Status, type Action } from '../../flow/types';
+import { type Dispatch, type RepoState, type Action } from '../../flow/types';
 import axios from 'axios';
 import github from './_github';
 
@@ -14,25 +14,26 @@ export function fetchRepo(repo: string) {
         })
       ),
       axios(
+        github(`/repos/${repo}/labels`, {
+          token: window.localStorage.token
+        })
+      ),
+      axios(
         `https://raw.githubusercontent.com/${repo}/master/.priorlyrc`
       ).catch(() => ({ data: null }))
-    ]).then(([repo, config]) => {
+    ]).then(([repo, labels, config]) => {
       return dispatch({
         type: FETCH_REPO_RESOLVED,
         repo: repo.data,
-        config: config.data
+        config: config.data,
+        labels: labels.data
       });
     });
   };
 }
 
-type State = {
-  status: Status,
-  repo: ?Object
-};
-
 export default (
-  state: State = { status: 'loading', repo: null },
+  state: RepoState = { status: 'loading', repo: null, labels: [] },
   action: Action
 ) => {
   switch (action.type) {
@@ -41,6 +42,7 @@ export default (
         ...state,
         status: 'ready',
         repo: action.repo,
+        labels: action.labels || [],
         config: action.config || {}
       };
     default:

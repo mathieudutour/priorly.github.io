@@ -1,10 +1,5 @@
 /* @flow */
-import {
-  type Dispatch,
-  type Status,
-  type Action,
-  type UserType
-} from '../../flow/types';
+import { type Dispatch, type UserState, type Action } from '../../flow/types';
 import axios from 'axios';
 import qs from 'query-string';
 import github from './_github';
@@ -61,13 +56,8 @@ export function logout() {
   };
 }
 
-type State = {
-  status: Status,
-  user: UserType
-};
-
 export default (
-  state: State = { status: 'loading', user: null },
+  state: UserState = { status: 'loading', user: null },
   action: Action
 ) => {
   switch (action.type) {

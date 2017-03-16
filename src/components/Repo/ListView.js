@@ -14,7 +14,7 @@ type Props = {
   repoName: string,
   repoReady: boolean,
   issueReady: boolean,
-  issues: [IssueType],
+  issues: Array<IssueType>,
   repo: RepoType
 };
 
