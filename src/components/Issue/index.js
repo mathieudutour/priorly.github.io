@@ -90,6 +90,7 @@ class Issue extends React.Component {
               />}
             {this.props.issue &&
               this.props.comments &&
+              this.props.comments.length > 0 &&
               <div className={css(styles.separator)} />}
             {this.props.issue &&
               this.props.comments &&

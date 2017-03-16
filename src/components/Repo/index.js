@@ -2,14 +2,8 @@
 
 import React from 'react';
 import { connect } from 'react-redux';
-import { StyleSheet } from 'aphrodite';
 import TopBar from '../TopBar';
-import Container from '../Container';
-import Card from '../Card';
-import IssueBlock from '../IssueBlock';
-import IssueEmptyState from '../emptyStates/issues';
-import RepoCard from './RepoCard';
-import IssueListHeader from './IssueListHeader';
+import ListView from './ListView';
 import { fetchIssues, selectors } from '../../reducers/issues';
 import { fetchRepo } from '../../reducers/repo';
 import {
@@ -17,10 +11,6 @@ import {
   type RepoType,
   type Dispatch
 } from '../../../flow/types';
-
-function getRepoName(props) {
-  return props.match.params.owner + '/' + props.match.params.repo;
-}
 
 type Props = {
   dispatch: Dispatch,
@@ -54,53 +44,21 @@ class Repo extends React.Component {
     return (
       <div>
         <TopBar repoName={this.props.repoName} />
-        <Container styles={styles.container}>
-          <RepoCard
-            ready={this.props.repoReady}
-            repo={this.props.repo}
-            repoName={this.props.repoName}
-          />
-          <Card styles={styles.issuesList}>
-            <IssueListHeader repoName={this.props.repoName} />
-            {this.props.issues.length > 0 &&
-              !this.props.issueReady &&
-              'Loading...'}
-            {this.props.issues.length === 0 &&
-              !this.props.issueReady &&
-              Array.from(Array(5)).map((_, i) => (
-                <IssueBlock key={i} waiting index={i} />
-              ))}
-            {this.props.issues.length === 0 &&
-              this.props.issueReady &&
-              <IssueEmptyState />}
-            {this.props.issues.map(i => (
-              <IssueBlock
-                key={i.id}
-                issue={i}
-                repoName={this.props.repoName}
-                showComment
-              />
-            ))}
-          </Card>
-        </Container>
+        <ListView
+          repoName={this.props.repoName}
+          repoReady={this.props.repoReady}
+          issueReady={this.props.issueReady}
+          issues={this.props.issues}
+          repo={this.props.repo}
+        />
       </div>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    '@media (max-width: 780px)': {
-      alignItems: 'stretch',
-      flexDirection: 'column'
-    }
-  },
-
-  issuesList: {
-    width: '100%',
-    alignSelf: 'flex-start'
-  }
-});
+function getRepoName(props) {
+  return props.match.params.owner + '/' + props.match.params.repo;
+}
 
 export default connect((state, ownProps) => {
   const repoName = getRepoName(ownProps);

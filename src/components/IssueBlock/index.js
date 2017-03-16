@@ -13,12 +13,18 @@ import {
   type IssueType,
   type Dispatch
 } from '../../../flow/types';
+import { findLabel, getLabel } from '../../kanban-helpers';
+
+type VoteProps = {
+  reactions: Object,
+  onVote: (e: SyntheticMouseEvent) => void
+};
 
 const Votes = (
   {
     reactions,
     onVote
-  }: { reactions: Object, onVote: (e: SyntheticMouseEvent) => void }
+  }: VoteProps
 ) => (
   <div className={css(_styles.votes)} onClick={onVote}>
     <Upvote upvoted={(reactions || {}).upvoted} />
@@ -27,16 +33,6 @@ const Votes = (
     </span>
   </div>
 );
-
-const KANBAN_LABEL = /^\d+ - /;
-
-function findLabel(issue) {
-  return (issue.labels || []).find(l => KANBAN_LABEL.test(l.name));
-}
-
-function getLabel(issue) {
-  return findLabel(issue).name.replace(/^\d+ - /, '');
-}
 
 type Props = {
   issue: IssueType,
