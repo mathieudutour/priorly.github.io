@@ -49,7 +49,6 @@ const styles = StyleSheet.create({
 export default connect((state: StateType): Connect => {
   return {
     ready: state.user.status === 'ready',
-    user: state.user.user,
-    foo: state.user.adawd.awd
+    user: state.user.user
   };
 })(User);
