@@ -4,10 +4,17 @@ import { type Dispatch, type Action, type UIState } from '../../flow/types';
 export const HIDE_LOGIN_OVERLAY = 'ui/HIDE_LOGIN_OVERLAY';
 export const SHOW_LOGIN_OVERLAY = 'ui/SHOW_LOGIN_OVERLAY';
 export const MARKDOWN_LOADED = 'ui/MARKDOWN_LOADED';
+export const TOGGLE_VIEW = 'ui/TOGGLE_VIEW';
 
 export function hideLoginOverlay() {
   return {
     type: HIDE_LOGIN_OVERLAY
+  };
+}
+
+export function toggleView() {
+  return {
+    type: TOGGLE_VIEW
   };
 }
 
@@ -70,6 +77,11 @@ export default (
       return {
         ...state,
         markdownReady: true
+      };
+    case TOGGLE_VIEW:
+      return {
+        ...state,
+        view: state.view === 'grid' ? 'list' : 'grid'
       };
     default:
       return state;

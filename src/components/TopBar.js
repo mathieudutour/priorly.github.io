@@ -4,12 +4,13 @@ import theme from '../theme';
 import { StyleSheet, css } from 'aphrodite';
 import { Link } from 'react-router-dom';
 import Container from './Container';
+import ToggleViewButton from './ToggleViewButton';
 import User from './User';
 
 const TopBar = ({ repoName }: { repoName: string }) => (
   <nav className={css(styles.topBar)}>
     <Container styles={styles.container}>
-      <div>
+      <div className={css(styles.repoName)}>
         <Link to="/about" className={css(styles.link, styles.logo)}>
           Prior.ly
         </Link>
@@ -17,6 +18,7 @@ const TopBar = ({ repoName }: { repoName: string }) => (
           {repoName}
         </Link>
       </div>
+      <ToggleViewButton />
       <User />
     </Container>
   </nav>
@@ -41,6 +43,10 @@ const styles = StyleSheet.create({
     wordSpacing: '.02em',
     display: 'flex',
     justifyContent: 'space-between'
+  },
+
+  repoName: {
+    flex: 1
   },
 
   link: {
