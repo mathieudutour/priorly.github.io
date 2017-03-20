@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     backgroundColor: theme.background,
     minWidth: '100vw',
     minHeight: '100vh',
-    padding: '0 0 50px',
+    padding: '0',
     boxSizing: 'border-box'
   }
 });

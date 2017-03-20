@@ -48,7 +48,11 @@ export function getMarkdown() {
 }
 
 export default (
-  state: UIState = { showLoginOverlay: false, markdownReady: false },
+  state: UIState = {
+    showLoginOverlay: false,
+    markdownReady: false,
+    view: 'list'
+  },
   action: Action
 ) => {
   switch (action.type) {

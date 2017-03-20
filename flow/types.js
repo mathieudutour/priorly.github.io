@@ -1,4 +1,4 @@
-export type AphroStyle = Object | false | void | Array<Object>;
+export type AphroStyle = Object | false | void | Object[];
 
 export type Status = 'loading' | 'ready';
 
@@ -11,11 +11,20 @@ export type UserType = {
   login: String
 };
 
+export type LabelType = {
+  id: string,
+  url: string,
+  name: string,
+  color: string,
+  default: boolean
+};
+
 export type IssueType = {
   id: string,
   body: string,
   user: UserType,
-  created_at: Date
+  created_at: Date,
+  labels?: LabelType[]
 };
 
 export type CommentType = {
@@ -28,16 +37,8 @@ export type CommentType = {
 export type RepoType = {
   description: string,
   full_name: string,
-  collaborators: ?Array<UserType>,
+  collaborators?: UserType[],
   owner: UserType
-};
-
-export type LabelType = {
-  id: string,
-  url: string,
-  name: string,
-  color: string,
-  default: boolean
 };
 
 export type Dispatch = (action: Action | Promise<Action>) => Promise;
@@ -45,13 +46,13 @@ export type Dispatch = (action: Action | Promise<Action>) => Promise;
 export type IssuesState = {
   status: Status,
   issues: { [id: string]: IssueType },
-  filter: string
+  filter: 'top' | 'new' | 'all' | 'search' | 'closed'
 };
 
 export type RepoState = {
   status: Status,
-  repo: ?RepoType,
-  labels: Array<LabelType>
+  repo: RepoType | null,
+  labels: LabelType[]
 };
 
 export type UserState = {
@@ -61,7 +62,8 @@ export type UserState = {
 
 export type UIState = {
   showLoginOverlay: boolean,
-  markdownReady: boolean
+  markdownReady: boolean,
+  view: 'grid' | 'list'
 };
 
 export type CommentsState = {

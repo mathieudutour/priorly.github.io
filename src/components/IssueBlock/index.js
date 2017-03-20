@@ -4,6 +4,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { StyleSheet, css } from 'aphrodite';
+import theme from '../../theme';
 import Upvote from './Upvote';
 import WaitingIssue from './WaitingIssue';
 import CommentIcon from '../icons/Comment';
@@ -13,21 +14,26 @@ import {
   type IssueType,
   type Dispatch
 } from '../../../flow/types';
-import { findLabel, getLabel } from '../../kanban-helpers';
+import { findLabel, getLabelName } from '../../kanban-helpers';
 
 type VoteProps = {
   reactions: Object,
-  onVote: (e: SyntheticMouseEvent) => void
+  onVote: (e: SyntheticMouseEvent) => void,
+  smallView?: boolean
 };
 
 const Votes = (
   {
     reactions,
-    onVote
+    onVote,
+    smallView
   }: VoteProps
 ) => (
-  <div className={css(_styles.votes)} onClick={onVote}>
-    <Upvote upvoted={(reactions || {}).upvoted} />
+  <div
+    className={css(_styles.votes, smallView && smallViewStyles.votes)}
+    onClick={onVote}
+  >
+    <Upvote upvoted={(reactions || {}).upvoted} smallView={smallView} />
     <span className={css(_styles.upvotesNumber)}>
       {(reactions || {})['+1']}
     </span>
@@ -41,38 +47,61 @@ type Props = {
   repoName: string,
   showComment: boolean,
   waiting: boolean,
-  index: number
+  index: number,
+  smallView: boolean
 };
 
 const Issue = (
-  { issue, styles, dispatch, repoName, showComment, waiting, index }: Props
+  {
+    issue,
+    styles,
+    dispatch,
+    repoName,
+    showComment,
+    waiting,
+    index,
+    smallView
+  }: Props
 ) => {
   if (waiting) {
     return <WaitingIssue index={index} />;
   }
+  const label = findLabel(issue);
   return (
-    <div className={css(_styles.issue, styles)}>
+    <div
+      className={css(_styles.issue, smallView && smallViewStyles.issue, styles)}
+    >
       <Votes
+        smallView={smallView}
         reactions={issue.reactions}
         onVote={() => dispatch(upvoteIssue(repoName, issue))}
       />
-      <Link className={css(_styles.body)} to={`/${repoName}/${issue.number}`}>
+      <Link
+        className={css(_styles.body, smallView && smallViewStyles.title)}
+        to={`/${repoName}/${issue.number}`}
+      >
         <div>{issue.title}</div>
-        {issue.closed_at &&
+        {!smallView &&
+          issue.closed_at &&
           <div className={css(_styles.label)} style={{ color: '#3ac600' }}>
             Fixed
           </div>}
-        {!issue.closed_at &&
-          findLabel(issue) &&
+        {!smallView &&
+          !issue.closed_at &&
+          label &&
           <div
             className={css(_styles.label)}
-            style={{ color: '#' + findLabel(issue).color }}
+            style={{ color: '#' + label.color }}
           >
-            {getLabel(issue)}
+            {getLabelName(label)}
           </div>}
       </Link>
-      {showComment && <CommentIcon />}
-      {showComment && <div>{issue.comments}</div>}
+      {showComment &&
+        <CommentIcon styles={smallView && smallViewStyles.comment} />}
+      {showComment &&
+        <div className={css(smallView && smallViewStyles.commentNumber)}>
+          {issue.comments}
+        </div>}
     </div>
   );
 };
@@ -80,8 +109,13 @@ const Issue = (
 const _styles = StyleSheet.create({
   issue: {
     display: 'flex',
-    padding: '15px 30px 15px 10px',
-    alignItems: 'center'
+    padding: '15px 20px 15px 0',
+    margin: '0 10px',
+    alignItems: 'center',
+    flexFlow: 'row wrap',
+    ':hover': {
+      color: '#000'
+    }
   },
 
   votes: {
@@ -123,6 +157,39 @@ const _styles = StyleSheet.create({
     letterSpacing: '.1em',
     textTransform: 'uppercase',
     margin: '4px 0 0'
+  }
+});
+
+const smallViewStyles = StyleSheet.create({
+  issue: {
+    padding: '15px 0',
+    margin: '0 15px',
+    borderBottom: '1px solid ' + theme.background
+  },
+
+  title: {
+    flex: 'auto',
+    order: -1,
+    width: '100%',
+    paddingRight: '0'
+  },
+
+  votes: {
+    order: 0,
+    padding: '0 10px 0 0',
+    minWidth: '0',
+    flexDirection: 'row',
+    transform: 'scale(0.7)'
+  },
+
+  comment: {
+    transform: 'scale(0.7)'
+  },
+
+  commentNumber: {
+    transform: 'scale(0.7)',
+    marginLeft: '-4px',
+    marginTop: '-2px'
   }
 });
 

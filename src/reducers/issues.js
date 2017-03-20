@@ -237,6 +237,15 @@ function filterAndSort(
 }
 
 export const selectors = {
+  all(state: IssuesState, repoName: string): Array<IssueType> {
+    return filterAndSort(
+      state.issues,
+      repoName,
+      i => true,
+      (a, b) => new Date(b.created_at) - new Date(a.created_at)
+    );
+  },
+
   new(state: IssuesState, repoName: string): Array<IssueType> {
     return filterAndSort(
       state.issues,

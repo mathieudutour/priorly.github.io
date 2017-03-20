@@ -4,8 +4,19 @@ import React from 'react';
 import theme from '../../theme';
 import { StyleSheet, css } from 'aphrodite';
 
-const Upvote = ({ upvoted }: { upvoted?: boolean }) => (
-  <div className={css(_styles.upvote, upvoted && _styles.upvoted)} />
+type Props = {
+  upvoted?: boolean,
+  smallView?: boolean
+};
+
+const Upvote = ({ upvoted, smallView }: Props) => (
+  <div
+    className={css(
+      _styles.upvote,
+      smallView && _styles.smallView,
+      upvoted && _styles.upvoted
+    )}
+  />
 );
 
 const _styles = StyleSheet.create({
@@ -21,6 +32,11 @@ const _styles = StyleSheet.create({
 
   upvoted: {
     borderBottom: '9px solid ' + theme.primary
+  },
+
+  smallView: {
+    marginTop: '5px',
+    marginRight: '4px'
   }
 });
 
