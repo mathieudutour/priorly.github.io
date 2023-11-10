@@ -20,7 +20,7 @@
   "license": "MIT",
   "dependencies": {
     "aphrodite": "1.2.0",
-    "axios": "0.15.3",
+    "axios": "1.6.0",
     "lodash.debounce": "4.0.8",
     "marky-markdown": "9.0.2",
     "query-string": "4.3.2",
